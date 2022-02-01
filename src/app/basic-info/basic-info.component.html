@@ -1,0 +1,60 @@
+<section>
+  <b>Basic information</b>
+  <form>
+    <div class="h">What's your first name?</div>
+    <input />
+    <div class="h">What's your city or town?</div>
+    <input />
+    <div class="h">Find friends within</div>
+    <select>
+      <option [disabled]="true" [selected]="true">Please choose an option</option>
+      <option>My city/town</option>
+      <option>10 miles of my city/town</option>
+      <option>20 miles of my city/town</option>
+      <option>30 miles of my city/town</option>
+      <option>40 miles of my city/town</option>
+      <option>50 miles of my city/town</option>
+    </select>
+    <div class="h">Your demographics</div>
+    <div class="radio-group">
+      <label><input type="checkbox" />Male</label>
+      <label><input type="checkbox" />Female</label><br />
+    </div>
+    <div class="radio-group">
+      <label><input name="yourAge" type="checkbox" />Lower 20s</label>
+      <label><input name="yourAge" type="checkbox" />Upper 20s</label><br />
+      <label><input name="yourAge" type="checkbox" />Lower 30s</label>
+      <label><input name="yourAge" type="checkbox" />Upper 30s</label><br />
+      <label><input name="yourAge" type="checkbox" />Lower 40s</label>
+      <label><input name="yourAge" type="checkbox" />Upper 40s</label><br />
+      <label><input name="yourAge" type="checkbox" />Lower 50s</label>
+      <label><input name="yourAge" type="checkbox" />Upper 50s</label><br />
+      <label><input name="yourAge" type="checkbox" />60 and up</label>
+    </div>
+    <div class="h">The demographics of the friend you are want to find</div>
+    <div class="radio-group">
+      <label><input type="checkbox" />Male</label>
+      <label><input type="checkbox" />Female</label><br />
+    </div>
+    <div class="radio-group">
+      <label><input name="yourDemographics" type="checkbox" />Lower 20s</label>
+      <label><input name="yourDemographics" type="checkbox" />Upper 20s</label><br />
+      <label><input name="yourDemographics" type="checkbox" />Lower 30s</label>
+      <label><input name="yourDemographics" type="checkbox" />Upper 30s</label><br />
+      <label><input name="yourDemographics" type="checkbox" />Lower 40s</label>
+      <label><input name="yourDemographics" type="checkbox" />Upper 40s</label><br />
+      <label><input name="yourDemographics" type="checkbox" />Lower 50s</label>
+      <label><input name="yourDemographics" type="checkbox" />Upper 50s</label><br />
+      <label><input name="yourDemographics" type="checkbox" />60 and up</label>
+    </div>
+    <div class="radio-group">
+      <label><input name="yourDemographics" type="checkbox" />Include people who did not provide this information</label>
+    </div>
+    <div class="h">How should we contact you about potential friends?</div>
+    <div class="hh">Enter a phone number or email address.</div>
+    <input />
+  </form>
+</section>
+<footer>
+  <a routerLink="/friend">Continue to details about your friend</a>
+</footer>
