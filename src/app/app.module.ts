@@ -9,6 +9,7 @@ import { FriendDetailsComponent } from './friend-details/friend-details.componen
 import { ScenariosComponent } from './scenarios/scenarios.component';
 import { MeetDetailsComponent } from './meet-details/meet-details.component';
 import { SubmittedComponent } from './submitted/submitted.component';
+import { AttendComponent } from './attend/attend.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SubmittedComponent } from './submitted/submitted.component';
     FriendDetailsComponent,
     ScenariosComponent,
     MeetDetailsComponent,
-    SubmittedComponent
+    SubmittedComponent,
+    AttendComponent
   ],
   imports: [
     BrowserModule,

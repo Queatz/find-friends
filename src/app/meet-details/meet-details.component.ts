@@ -20,6 +20,7 @@ export class MeetDetailsComponent implements OnInit {
     'Cafe',
     'Restaurant',
     'Bar',
+    'Mall',
     'On the street',
     'Anything goes',
   ]
@@ -28,5 +29,4 @@ export class MeetDetailsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

@@ -6,6 +6,7 @@ import {FriendDetailsComponent} from "./friend-details/friend-details.component"
 import {ScenariosComponent} from "./scenarios/scenarios.component";
 import {MeetDetailsComponent} from "./meet-details/meet-details.component";
 import {SubmittedComponent} from "./submitted/submitted.component";
+import {AttendComponent} from "./attend/attend.component";
 
 const routes: Routes = [
   {
@@ -32,11 +33,15 @@ const routes: Routes = [
   {
     path: 'submitted',
     component: SubmittedComponent
+  },
+  {
+    path: 'attend/:key',
+    component: AttendComponent
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
