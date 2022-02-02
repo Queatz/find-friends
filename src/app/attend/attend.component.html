@@ -15,7 +15,7 @@
     <br />
     {{
       timeIsExpired ? 'A meet has been scheduled with you and 4 other people.' :
-        'We found 4 people that match >90% with who you are looking for.'
+        'We found 4 people that match with who you are looking for.'
     }}
   </p>
   <p *ngIf="!timeIsExpired">
@@ -40,17 +40,19 @@
   <hr *ngIf="!timeIsExpired" />
   <ng-container *ngFor="let x of suggestions">
     <p>
-      Someone suggested <b>Central Park</b> at <b>4:00PM Sunday March 3rd</b>.<br />
+      Someone suggested <b>{{ x.name }}</b> at <b>{{ x.date }}</b>.<br />
     </p>
-    <a href="#">Central Park, 14102 E 12th St., Fenton, MI 12345</a>
-    <div class="map"></div>
-    {{ meetChosen === x.id ? 'You and ' : '' }} {{ x.count }} {{ x.count === 1 ? 'person' : 'people' }} chose this time and place.<br />
+    <a href="#">{{ x.address }}</a>
+    <div class="map" [style.background-image]="'url(' + img(x.geo) + ')'">
+      <div class="pin"></div>
+    </div>
+    {{ meetChosen === x.id ? 'You and ' : '' }} {{ x.attendees }} {{ x.attendees === 1 ? 'person' : 'people' }} chose this time and place.<br />
     <a *ngIf="meetChosen !== x.id" href="javascript:" (click)="meetChosen = x.id">Also choose this time and place</a>
     <hr />
   </ng-container>
   <ng-container *ngIf="!timeIsExpired">
     <p>
-      <b>Suggest a {{ 'numSuggestions' ? 'different' : 'meeting' }} place</b>
+      <b>Suggest {{ suggestions.length ? 'another' : 'a' }} place to meet</b>
     </p>
     <input placeholder="Search" [(ngModel)]="search" (ngModelChange)="autocomplete(search)" />
     <div class="autocomplete" *ngIf="placeSuggestions.length">
@@ -58,30 +60,19 @@
         {{ x.full }}
       </div>
     </div>
-    <br />
-    <br />
-    <a href="#">Central Park, 14102 E 12th St., Fenton, MI 12345</a>
+    <br *ngIf="searchName" />
+    <br *ngIf="searchName" />
+    <a href="#" *ngIf="searchName">{{searchName}}, {{searchAddress}}</a>
     <div class="map" [style.background-image]="'url(' + searchMapImg + ')'">
-      <div class="pin"></div>
+      <div class="pin" *ngIf="searchMapImg"></div>
     </div>
 
-    <div class="h">Suggest a {{ 'numSuggestions' ? 'different' : 'meeting' }} time</div>
-    <select>
-      <option>Today, March 1st</option>
-      <option>Tomorrow, March 2nd</option>
-      <option>Wednesday, March 3rd</option>
-      <option>Thursday, March 4th</option>
-      <option>Friday, March 5th</option>
-      <option>Saturday, March 6th</option>
-      <option>Sunday, March 7th</option>
+    <div class="h">Suggest a time</div>
+    <select [(ngModel)]="searchDate">
+      <option *ngFor="let day of days" [value]="day.time">{{ day.text }}</option>
     </select>
     <br />
-    <input type="number" value="12" />
-    <input type="number" value="00" />
-    <select>
-      <option>AM</option>
-      <option [selected]="true">PM</option>
-    </select>
+    <input type="time" [(ngModel)]="searchTime" />
     <br />
     <br />
     <a href="javascript:" (click)="addMeetSuggestion()">Suggest this time and place</a><br /><br />
