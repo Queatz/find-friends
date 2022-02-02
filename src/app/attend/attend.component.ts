@@ -26,6 +26,7 @@ export class AttendComponent implements OnInit {
   searchMapImg = ''
   searchTime = '12:00'
   placeSuggestions = [] as Array<PlaceResult>
+  place?: Suggestion
   private autocompleteSub?: Subscription
 
   constructor(public user: UserService, private map: MapService, private cr: ChangeDetectorRef) { }
@@ -47,6 +48,7 @@ export class AttendComponent implements OnInit {
 
   expired() {
     this.timeIsExpired = true
+    this.place = this.suggestions[0]
     this.suggestions.length = 0
   }
 
@@ -55,18 +57,28 @@ export class AttendComponent implements OnInit {
     d.setHours(Number(this.searchTime.split(':')[0]))
     d.setMinutes(Number(this.searchTime.split(':')[1]))
     const date = `${format(d, 'h:mm a')}, ${this.fmt(d)}`
+
+    const s = {
+      id: Math.random().toString(),
+      attendees: 2,
+      date,
+      name: this.searchName,
+      address: this.searchAddress,
+      geo: this.searchGeo
+    }
+
     this.suggestions.push(
-      {
-        id: Math.random().toString(),
-        attendees: 2,
-        date,
-        name: this.searchName,
-        address: this.searchAddress,
-        geo: this.searchGeo
-      }
+      s
     )
 
-    this.meetChosen = '3'
+    this.meetChosen = s.id
+
+    this.searchDate = this.days[0].time
+    this.searchName = ''
+    this.searchGeo = []
+    this.searchAddress = ''
+    this.searchMapImg = ''
+    this.searchTime = '12:00'
   }
 
   autocomplete(text: string) {
@@ -89,7 +101,7 @@ export class AttendComponent implements OnInit {
   }
 
   img(geo: Array<number>): string {
-    return this.searchMapImg = this.map.staticMap(geo.join(','))
+    return this.map.staticMap(geo.join(','))
   }
 
   private fmt(date: Date): string {

@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  align-items: center;
+
+  .page {
+    max-width: 480px;
+    margin: auto;
+    background: white;
+
+    @media screen and (min-width: 480px) {
+      border: 1px solid lightgray;
+      border-top: none;
+    }
+  }
+}

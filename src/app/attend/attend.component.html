@@ -23,19 +23,21 @@
     Once all attendees choose a time and place, the meet or meets will be scheduled.
   </p>
   <a routerLink="/" *ngIf="!timeIsExpired">Do not attend this meet</a>
-  <ng-container *ngIf="timeIsExpired">
+  <ng-container *ngIf="timeIsExpired && place">
     <div class="h">Place</div>
-    <a href="#">Central Park, 14102 E 12th St., Fenton, MI 12345</a>
+    <a href="#">{{ place.name }}, {{ place.address }}</a>
     <div class="h">Time</div>
     <div>
-      4:00PM on Sunday, March 3rd
+      {{ place.date }}
     </div>
-    <div class="map"></div>
+    <div class="map" [style.background-image]="'url(' + img(place.geo) + ')'">
+      <div class="pin"></div>
+    </div>
     <div class="sm">
       Can’t find each other?  Use the input below to help others find you, and we will send them a message on your behalf.
     </div>
-    <input #message placeholder="Enter message here" class="m" />
-    <a href="/">Send this message to all attendees</a><br /><br />
+    <input placeholder="Enter message here" class="m" />
+    <a href="javascript:">Send this message to all attendees</a><br /><br />
   </ng-container>
   <hr *ngIf="!timeIsExpired" />
   <ng-container *ngFor="let x of suggestions">
@@ -63,8 +65,8 @@
     <br *ngIf="searchName" />
     <br *ngIf="searchName" />
     <a href="#" *ngIf="searchName">{{searchName}}, {{searchAddress}}</a>
-    <div class="map" [style.background-image]="'url(' + searchMapImg + ')'">
-      <div class="pin" *ngIf="searchMapImg"></div>
+    <div class="map" *ngIf="searchMapImg" [style.background-image]="'url(' + searchMapImg + ')'">
+      <div class="pin"></div>
     </div>
 
     <div class="h">Suggest a time</div>
@@ -81,7 +83,7 @@
     <a href="javascript:" (click)="meetHasAlreadyBegun = true">I can no longer attend this meet</a>
     <br />
     <br />
-    <a href="javascript:" (click)="meetHasAlreadyBegun = true">Report a problem</a>
+    <a href="javascript:" (click)="meetHasAlreadyBegun = true">Tell us about a problem</a>
     <br />
     <br />
   </ng-container>
