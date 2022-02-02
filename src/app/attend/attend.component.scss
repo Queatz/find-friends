@@ -1,6 +1,22 @@
 .map {
+  position: relative;
   height: 20vh;
-  background: lightslategray;
+  background-color: lightslategray;
   margin: 1rem 0;
   border-radius: .25rem;
+  background-size: 100% auto;
+  background-position: center;
+
+  & > .pin {
+    position: absolute;
+    background: white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    border: 3px solid royalblue;
+    border-radius: 100%;
+    width: .5rem;
+    height: .5rem;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
 }

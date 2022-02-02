@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-submitted',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubmittedComponent implements OnInit {
 
-  constructor() { }
+  constructor(public user: UserService) {
+    console.log(user.quiz)
+  }
 
   ngOnInit(): void {
   }

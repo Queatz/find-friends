@@ -1,14 +1,9 @@
 <section>
   <b>Describe the friend you want to find</b>
-  <div class="hh">Choose the option that is the most correct</div>
+  <div class="hh">Choose the option that is the most correct, or skip</div>
   <div *ngFor="let x of friendFacts">
     <div class="h">{{ x }}</div>
-    <div class="radio-group">
-      <label><input name="yourDemographics" type="checkbox" />No</label>
-      <label><input name="yourDemographics" type="checkbox" />Doesn't matter</label>
-      <label><input name="yourDemographics" type="checkbox" />Yes</label>
-    </div>
-    <label class="sm"><input name="yourDemographics" type="checkbox" />Do not match me with people who answered this differently</label>
+    <app-choices [(value)]="user.quiz.friendFacts[x]"></app-choices>
   </div>
 </section>
 <footer>

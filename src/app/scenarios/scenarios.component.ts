@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ScenarioService} from "../scenario.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-scenarios',
@@ -7,9 +10,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScenariosComponent implements OnInit {
 
-  constructor() { }
+  required = false
+  id = 0
 
-  ngOnInit(): void {
+  constructor(public user: UserService, public scenario: ScenarioService, private route: ActivatedRoute, private router: Router, private cr: ChangeDetectorRef) {
   }
 
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.id = Number(params.get('id')) - 1
+
+      this.cr.detectChanges()
+    })
+  }
+
+  select(text?: string): void {
+    this.user.quiz.friendScenarios[String(this.id)] = {
+      choice: text || null,
+      required: this.required
+    }
+
+    this.required = false
+
+    if (this.id + 1 < this.scenario.scenarios.length) {
+      this.id++
+    } else {
+      this.router.navigate([ '/meet' ])
+    }
+  }
 }

@@ -10,6 +10,10 @@ import { ScenariosComponent } from './scenarios/scenarios.component';
 import { MeetDetailsComponent } from './meet-details/meet-details.component';
 import { SubmittedComponent } from './submitted/submitted.component';
 import { AttendComponent } from './attend/attend.component';
+import {FormsModule} from "@angular/forms";
+import { CheckboxGroupComponent } from './checkbox-group/checkbox-group.component';
+import { ChoicesComponent } from './choices/choices.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -20,12 +24,16 @@ import { AttendComponent } from './attend/attend.component';
     ScenariosComponent,
     MeetDetailsComponent,
     SubmittedComponent,
-    AttendComponent
+    AttendComponent,
+    CheckboxGroupComponent,
+    ChoicesComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+    imports: [
+      BrowserModule,
+      AppRoutingModule,
+      HttpClientModule,
+      FormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

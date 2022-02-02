@@ -1,0 +1,10 @@
+<app-checkbox-group
+  [checked]="value.choice"
+  (checkedChange)="value.choice = $event"
+  [options]="[
+        { title: 'No' },
+        { title: 'Doesn\'t matter' },
+        { title: 'Yes' }
+      ]"
+></app-checkbox-group>
+<label class="sm"><input type="checkbox" [(ngModel)]="value.required" />Do not match me with people who answered this differently</label>

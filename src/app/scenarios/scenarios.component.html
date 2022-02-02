@@ -1,16 +1,15 @@
-<section>
-  <b>Scenario 1 of 12</b>
+<section *ngIf="scenario">
+  <b>Scenario {{ id + 1 }} of {{ scenario.scenarios.length}}</b>
   <div class="hh">Choose the option that is the most correct</div>
   <p>
-    Your friend is driving down the road when suddenly a rabbit jumps out in front of them.
+    {{ scenario.scenarios[id].text }}
   </p>
   <div class="h">What would your friend do?</div>
   <div class="radio-group">
-    <label class="sm"><input type="checkbox" />Do not match me with people who answered different from me for this scenario</label>
+    <label class="sm"><input type="checkbox" [(ngModel)]="required"  />Do not match me with people who answered different from me for this scenario</label>
   </div>
   <div class="option-links">
-    <a routerLink="/meet">Slam on the brakes</a>
-    <a routerLink="/meet">Try to hit the rabbit</a>
-    <a routerLink="/meet">Skip this scenario</a>
+    <a (click)="select(text)" *ngFor="let text of scenario.scenarios[id].choices">{{ text }}</a>
+    <a (click)="select()">Skip this scenario</a>
   </div>
 </section>

@@ -24,6 +24,11 @@ const routes: Routes = [
   },
   {
     path: 'scenarios',
+    pathMatch: 'full',
+    redirectTo: 'scenarios/1'
+  },
+  {
+    path: 'scenarios/:id',
     component: ScenariosComponent
   },
   {

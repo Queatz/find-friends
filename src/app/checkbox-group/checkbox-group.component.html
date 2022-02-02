@@ -1,0 +1,7 @@
+<div class="radio-group">
+  <label *ngFor="let option of options; let i = index">
+    <input type="checkbox"
+           [checked]="multiple ? checked.indexOf(option.value) !== -1 : ((option.value === undefined ? option.title : option.value) === checked)"
+           (change)="changed($event, option)" />{{ option.title }}<br *ngIf="layout === 'col' || (layout === 'odds' && i % 2 == 1)" />
+  </label>
+</div>

@@ -2,33 +2,38 @@
   <b>Your meet preferences</b>
   <div class="hh">Answer the following questions specifically about the meet you will attend</div>
   <div class="h">How closely must someone match what you described?</div>
-  <div class="radio-group">
-    <label><input type="checkbox" />&gt;90%</label><br />
-    <label><input type="checkbox" />&gt;80%</label><br />
-    <label><input type="checkbox" />&gt;70%</label><br />
-    <label><input type="checkbox" />&gt;60%</label><br />
-    <label><input type="checkbox" />&gt;50%</label><br />
-  </div>
-  <div class="h">What's okay at the meet?</div>
-  <div *ngFor="let x of meetFacts">
+  <app-checkbox-group [(checked)]="user.quiz.minimumMatchPercent"
+                      [layout]="'col'"
+                      [options]="[
+                        { title: '>90%', value: 90 },
+                        { title: '>80%', value: 80 },
+                        { title: '>70%', value: 70 },
+                        { title: '>60%', value: 60 },
+                        { title: '>50%', value: 50 },
+                      ]"></app-checkbox-group>
+  <p>
+    <b>What's okay at the meet?</b>
+  </p>
+  <div *ngFor="let x of meetPreferences">
     <div class="h">{{ x }}</div>
-    <div class="radio-group">
-      <label><input type="checkbox" />No</label>
-      <label><input type="checkbox" />Doesn't matter</label>
-      <label><input type="checkbox" />Yes</label>
-    </div>
-    <label class="sm"><input type="checkbox" />Do not match me with people who answered this differently</label>
+    <app-choices [(value)]="user.quiz.meetPreferences[x]"></app-choices>
   </div>
-  <div class="h">What are good meet locations?</div>
+  <p>
+    <b>What are good places to meet?</b>
+  </p>
   <div>
     <div class="radio-group">
-      <label *ngFor="let x of meetLocations"><input type="checkbox" />{{ x }}<br /></label>
+      <div *ngFor="let x of meetPlaces">
+        <div class="h">{{ x }}</div>
+        <app-choices [(value)]="user.quiz.meetPlaces[x]"></app-choices>
+      </div>
     </div>
   </div>
   <hr />
-  <label class="sm"><input type="checkbox" />I understand that meeting new people comes with associated risks and that I am using this platform at my own risk.</label><br /><br />
-  <label class="sm"><input type="checkbox" />I certify that I am using FindFriends.com only for the purpose of finding personal friends.  I am not soliciting, advertising, attempting to persuade others or otherwise seeking something other than a personal friend.</label>
+  <div class="sm m"><b>Disclaimers</b></div>
+  <label class="sm"><input type="checkbox" [(ngModel)]="user.quiz.legal.disclaimer" />I understand that meeting new people comes with associated risks and that I am using this platform at my own risk.</label><br />
+  <label class="sm"><input type="checkbox" [(ngModel)]="user.quiz.legal.tos" />I certify that I am using FindFriends.com only for the purpose of finding personal friends.  I am not soliciting, advertising, attempting to persuade others or otherwise seeking something other than a personal friend.</label>
 </section>
 <footer>
-  <a routerLink="/submitted">Submit</a>
+  <a (click)="next()">Submit</a>
 </footer>

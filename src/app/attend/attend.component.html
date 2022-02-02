@@ -11,7 +11,7 @@
 </section>
 <section *ngIf="!meetHasAlreadyBegun">
   <p>
-    Dear {{ 'Rachel' }},<br />
+    Dear {{ user.name || 'human' }},<br />
     <br />
     {{
       timeIsExpired ? 'A meet has been scheduled with you and 4 other people.' :
@@ -52,11 +52,18 @@
     <p>
       <b>Suggest a {{ 'numSuggestions' ? 'different' : 'meeting' }} place</b>
     </p>
-    <input placeholder="Search" />
+    <input placeholder="Search" [(ngModel)]="search" (ngModelChange)="autocomplete(search)" />
+    <div class="autocomplete" *ngIf="placeSuggestions.length">
+      <div *ngFor="let x of placeSuggestions" (click)="chooseAutocomplete(x)">
+        {{ x.full }}
+      </div>
+    </div>
     <br />
     <br />
     <a href="#">Central Park, 14102 E 12th St., Fenton, MI 12345</a>
-    <div class="map"></div>
+    <div class="map" [style.background-image]="'url(' + searchMapImg + ')'">
+      <div class="pin"></div>
+    </div>
 
     <div class="h">Suggest a {{ 'numSuggestions' ? 'different' : 'meeting' }} time</div>
     <select>

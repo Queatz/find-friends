@@ -1,60 +1,82 @@
+<link rel="stylesheet" href="basic-info.component.scss">
 <section>
   <b>Basic information</b>
-  <form>
+  <div>
     <div class="h">What's your first name?</div>
-    <input />
-    <div class="h">What's your city or town?</div>
-    <input />
+    <input [(ngModel)]="user.quiz.name" />
+    <div class="h">Search for your city or town</div>
+    <input [(ngModel)]="user.quiz.city" (ngModelChange)="autocomplete($event)" />
+    <div class="autocomplete" *ngIf="citySuggestions.length">
+      <div *ngFor="let x of citySuggestions" (click)="chooseAutocomplete(x)">
+        {{ x.name }}, {{ x.state }}
+      </div>
+    </div>
     <div class="h">Find friends within</div>
-    <select>
-      <option [disabled]="true" [selected]="true">Please choose an option</option>
-      <option>My city/town</option>
-      <option>10 miles of my city/town</option>
-      <option>20 miles of my city/town</option>
-      <option>30 miles of my city/town</option>
-      <option>40 miles of my city/town</option>
-      <option>50 miles of my city/town</option>
+    <select [(ngModel)]="user.quiz.distance">
+      <option [disabled]="true" [selected]="true" [value]="null">Please choose an option</option>
+      <option [value]="0">My city/town</option>
+      <option [value]="10">10 miles of my city/town</option>
+      <option [value]="20">20 miles of my city/town</option>
+      <option [value]="30">30 miles of my city/town</option>
+      <option [value]="40">40 miles of my city/town</option>
+      <option [value]="50">50 miles of my city/town</option>
     </select>
     <div class="h">Your demographics</div>
-    <div class="radio-group">
-      <label><input type="checkbox" />Male</label>
-      <label><input type="checkbox" />Female</label><br />
-    </div>
-    <div class="radio-group">
-      <label><input name="yourAge" type="checkbox" />Lower 20s</label>
-      <label><input name="yourAge" type="checkbox" />Upper 20s</label><br />
-      <label><input name="yourAge" type="checkbox" />Lower 30s</label>
-      <label><input name="yourAge" type="checkbox" />Upper 30s</label><br />
-      <label><input name="yourAge" type="checkbox" />Lower 40s</label>
-      <label><input name="yourAge" type="checkbox" />Upper 40s</label><br />
-      <label><input name="yourAge" type="checkbox" />Lower 50s</label>
-      <label><input name="yourAge" type="checkbox" />Upper 50s</label><br />
-      <label><input name="yourAge" type="checkbox" />60 and up</label>
-    </div>
+    <app-checkbox-group
+      [(checked)]="user.quiz.personDemographics.gender"
+      [options]="[
+        { title: 'Male' },
+        { title: 'Female' }
+      ]"
+    ></app-checkbox-group>
+    <app-checkbox-group
+      [(checked)]="user.quiz.personDemographics.age"
+      [layout]="'odds'"
+      [options]="[
+        { title: 'Lower 20s' },
+        { title: 'Upper 20s' },
+        { title: 'Lower 30s' },
+        { title: 'Upper 30s' },
+        { title: 'Lower 40s' },
+        { title: 'Upper 40s' },
+        { title: 'Lower 50s' },
+        { title: 'Upper 50s' },
+        { title: '60 and up' }
+      ]"
+    ></app-checkbox-group>
     <div class="h">The demographics of the friend you are want to find</div>
+    <app-checkbox-group
+      [(checked)]="user.quiz.friendDemographics.genders"
+      [multiple]="true"
+      [options]="[
+        { title: 'Male' },
+        { title: 'Female' }
+      ]"
+    ></app-checkbox-group>
+    <app-checkbox-group
+      [(checked)]="user.quiz.friendDemographics.ages"
+      [multiple]="true"
+      [layout]="'odds'"
+      [options]="[
+        { title: 'Lower 20s' },
+        { title: 'Upper 20s' },
+        { title: 'Lower 30s' },
+        { title: 'Upper 30s' },
+        { title: 'Lower 40s' },
+        { title: 'Upper 40s' },
+        { title: 'Lower 50s' },
+        { title: 'Upper 50s' },
+        { title: '60 and up' }
+      ]"
+    ></app-checkbox-group>
     <div class="radio-group">
-      <label><input type="checkbox" />Male</label>
-      <label><input type="checkbox" />Female</label><br />
-    </div>
-    <div class="radio-group">
-      <label><input name="yourDemographics" type="checkbox" />Lower 20s</label>
-      <label><input name="yourDemographics" type="checkbox" />Upper 20s</label><br />
-      <label><input name="yourDemographics" type="checkbox" />Lower 30s</label>
-      <label><input name="yourDemographics" type="checkbox" />Upper 30s</label><br />
-      <label><input name="yourDemographics" type="checkbox" />Lower 40s</label>
-      <label><input name="yourDemographics" type="checkbox" />Upper 40s</label><br />
-      <label><input name="yourDemographics" type="checkbox" />Lower 50s</label>
-      <label><input name="yourDemographics" type="checkbox" />Upper 50s</label><br />
-      <label><input name="yourDemographics" type="checkbox" />60 and up</label>
-    </div>
-    <div class="radio-group">
-      <label><input name="yourDemographics" type="checkbox" />Include people who did not provide this information</label>
+      <label><input type="checkbox" [(ngModel)]="user.quiz.friendDemographics.matchWhenAbsent" />Include people who did not provide this information</label>
     </div>
     <div class="h">How should we contact you about potential friends?</div>
     <div class="hh">Enter a phone number or email address.</div>
-    <input />
-  </form>
+    <input [(ngModel)]="user.quiz.contact" />
+  </div>
 </section>
 <footer>
-  <a routerLink="/friend">Continue to details about your friend</a>
+  <a (click)="next()">Continue to details about your friend</a>
 </footer>

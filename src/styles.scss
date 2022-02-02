@@ -2,6 +2,12 @@ html, body {
   line-height: 1.5;
 }
 
+a {
+  text-decoration: none;
+  color: royalblue;
+  cursor: pointer;
+}
+
 section {
   padding: 1rem;
 }
@@ -81,4 +87,16 @@ div.hh {
 
 .m {
   margin: 1rem 0
+}
+
+.autocomplete {
+  border: 1px solid rosybrown;
+  border-radius: .25rem;
+  margin-top: .5rem;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+
+  & > div {
+    padding: .5rem;
+    cursor: pointer;
+  }
 }
