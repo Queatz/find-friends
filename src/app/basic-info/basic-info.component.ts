@@ -12,7 +12,9 @@ import {delay, Subscription} from "rxjs";
 export class BasicInfoComponent implements OnInit {
 
   citySuggestions = [] as Array<PlaceResult>
+
   private autocompleteSub?: Subscription
+  private lastSearchText = ''
 
   constructor(public user: UserService, private map: MapService, private router: Router, private cr: ChangeDetectorRef) { }
 
@@ -50,6 +52,12 @@ export class BasicInfoComponent implements OnInit {
 
   autocomplete(text: string) {
     this.autocompleteSub?.unsubscribe()
+
+    if (!text || text === this.lastSearchText) {
+      return
+    }
+
+    this.lastSearchText = text
 
     this.autocompleteSub = this.map.autocomplete(text).pipe(delay(50)).subscribe(x => {
       this.citySuggestions = x

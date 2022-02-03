@@ -27,7 +27,9 @@ export class AttendComponent implements OnInit {
   searchTime = '12:00'
   placeSuggestions = [] as Array<PlaceResult>
   place?: Suggestion
+
   private autocompleteSub?: Subscription
+  private lastSearchText = ''
 
   constructor(public user: UserService, private map: MapService, private cr: ChangeDetectorRef) { }
 
@@ -53,6 +55,16 @@ export class AttendComponent implements OnInit {
   }
 
   addMeetSuggestion() {
+    if (!this.searchName || !this.searchAddress || !this.searchGeo) {
+      alert('Enter a place')
+      return
+    }
+
+    if (!this.searchTime) {
+      alert('Enter a time')
+      return
+    }
+
     const d = new Date(Number(this.searchDate))
     d.setHours(Number(this.searchTime.split(':')[0]))
     d.setMinutes(Number(this.searchTime.split(':')[1]))
@@ -83,6 +95,13 @@ export class AttendComponent implements OnInit {
 
   autocomplete(text: string) {
     this.autocompleteSub?.unsubscribe()
+
+    if (!text || text === this.lastSearchText) {
+      return
+    }
+
+    this.lastSearchText = text
+
     this.autocompleteSub = this.map.autocomplete(text, 'poi', this.user.quiz.geo.join(',')).pipe(delay(500)).subscribe(x => {
       this.placeSuggestions = x
       this.autocompleteSub = undefined

@@ -9,7 +9,6 @@ import {UserService} from "../user.service";
 export class SubmittedComponent implements OnInit {
 
   constructor(public user: UserService) {
-    console.log(user.quiz)
   }
 
   ngOnInit(): void {
