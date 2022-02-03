@@ -1,5 +1,8 @@
 <div class="container">
   <div class="page">
-    <router-outlet></router-outlet>
+    <header *ngIf="!isHomepage">
+      <a (click)="location.back()">Go back</a>
+    </header>
+    <router-outlet #outlet></router-outlet>
   </div>
 </div>

@@ -7,12 +7,17 @@ import {ScenariosComponent} from "./scenarios/scenarios.component";
 import {MeetDetailsComponent} from "./meet-details/meet-details.component";
 import {SubmittedComponent} from "./submitted/submitted.component";
 import {AttendComponent} from "./attend/attend.component";
+import {DisclaimersComponent} from "./disclaimers/disclaimers.component";
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
     component: HomeComponent
+  },
+  {
+    path: 'disclaimers',
+    component: DisclaimersComponent
   },
   {
     path: 'begin',

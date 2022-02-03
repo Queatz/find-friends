@@ -38,10 +38,6 @@ export class BasicInfoComponent implements OnInit {
       remaining = `${remaining}\nPlease enter a maximum distance`
     }
 
-    if (!this.user.quiz.contact) {
-      remaining = `${remaining}\nPlease enter a phone number or email address`
-    }
-
     if (remaining) {
       alert(remaining)
       return

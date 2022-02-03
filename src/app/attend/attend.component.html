@@ -18,11 +18,6 @@
         'We found 4 people that match with who you are looking for.'
     }}
   </p>
-  <p *ngIf="!timeIsExpired">
-    <b>23 hours, 14 minutes</b><br />remaining time to choose a time and place.<br /><br />
-    Once all attendees choose a time and place, the meet or meets will be scheduled.
-  </p>
-  <a routerLink="/" *ngIf="!timeIsExpired">Do not attend this meet</a>
   <ng-container *ngIf="timeIsExpired && place">
     <div class="h">Place</div>
     <a href="#">{{ place.name }}, {{ place.address }}</a>
@@ -39,7 +34,6 @@
     <input placeholder="Enter message here" class="m" />
     <a href="javascript:">Send this message to all attendees</a><br /><br />
   </ng-container>
-  <hr *ngIf="!timeIsExpired" />
   <ng-container *ngFor="let x of suggestions">
     <p>
       Someone suggested <b>{{ x.name }}</b> at <b>{{ x.date }}</b>.<br />
@@ -48,15 +42,15 @@
     <div class="map" [style.background-image]="'url(' + img(x.geo) + ')'">
       <div class="pin"></div>
     </div>
-    {{ meetChosen === x.id ? 'You and ' : '' }} {{ x.attendees }} {{ x.attendees === 1 ? 'person' : 'people' }} chose this time and place.<br />
-    <a *ngIf="meetChosen !== x.id" href="javascript:" (click)="meetChosen = x.id">Also choose this time and place</a>
+    {{ meetChosen === x.id ? 'You and ' : '' }} {{ x.attendees }} {{ x.attendees === 1 ? 'person' : 'people' }} suggested this time and place.<br />
+    <a *ngIf="meetChosen !== x.id" href="javascript:" (click)="meetChosen = x.id">{{ meetChosen ? 'Change your suggestion to this place' : 'Suggest this place' }}</a>
     <hr />
   </ng-container>
   <ng-container *ngIf="!timeIsExpired">
     <p>
       <b>Suggest {{ suggestions.length ? 'another' : 'a' }} place to meet</b>
     </p>
-    <input placeholder="Search" [(ngModel)]="search" (ngModelChange)="autocomplete(search)" />
+    <input placeholder="Search for a place" [(ngModel)]="search" (ngModelChange)="autocomplete(search)" />
     <div class="autocomplete" *ngIf="placeSuggestions.length">
       <div *ngFor="let x of placeSuggestions" (click)="chooseAutocomplete(x)">
         {{ x.full }}
@@ -77,15 +71,22 @@
     <input type="time" [(ngModel)]="searchTime" />
     <br />
     <br />
-    <a href="javascript:" (click)="addMeetSuggestion()">Suggest this time and place</a><br /><br />
+    <a (click)="addMeetSuggestion()">Suggest this time and place</a><br /><br />
   </ng-container>
   <ng-container *ngIf="timeIsExpired">
-    <a href="javascript:" (click)="meetHasAlreadyBegun = true">I can no longer attend this meet</a>
+    <a (click)="meetHasAlreadyBegun = true">I can no longer attend this meet</a>
     <br />
     <br />
-    <a href="javascript:" (click)="meetHasAlreadyBegun = true">Tell us about a problem</a>
+    <a (click)="meetHasAlreadyBegun = true">Tell us about a problem</a>
     <br />
     <br />
   </ng-container>
-  <a href="javascript:" *ngIf="!timeIsExpired" (click)="expired()">Reload</a>
+  <hr *ngIf="!timeIsExpired"  />
+  <a *ngIf="!timeIsExpired" (click)="expired()">Reload this page</a>
+  <p *ngIf="!timeIsExpired" class="sm">
+    <b>How do meets get scheduled?</b><br />
+    When more than half of all attendees vote for a suggestion, or a suggestion with two or more attendees is less than 12 hours away,
+    those attendees will be confirmed for that time and place.
+  </p>
+  <a routerLink="/" *ngIf="!timeIsExpired">Do not attend this meet</a>
 </section>

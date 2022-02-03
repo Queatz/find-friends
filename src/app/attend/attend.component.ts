@@ -72,7 +72,7 @@ export class AttendComponent implements OnInit {
 
     const s = {
       id: Math.random().toString(),
-      attendees: 2,
+      attendees: Math.floor(Math.random() * 4),
       date,
       name: this.searchName,
       address: this.searchAddress,

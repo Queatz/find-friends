@@ -9,16 +9,17 @@ import {UserService} from "../user.service";
 export class FriendDetailsComponent implements OnInit {
 
   friendFacts = [
-    'Smokes cigarettes',
-    'Smokes weed',
-    'Vapes',
-    'Drinks alcohol',
-    'Uses drugs',
-    'Hunts animals',
+    'Often available in the mornings',
+    'Often available in the evenings',
+    'Often available on the weekends',
     'Eats meat',
-    'Needs attention often',
-    'Works a 9-5 job',
-    'Often free on the weekends',
+    'Hunts animals',
+    'Is into astrology',
+    'Drinks alcohol',
+    'Vapes',
+    'Uses drugs',
+    'Smokes marijuana / weed',
+    'Smokes cigarettes / tobacco',
   ]
 
   constructor(public user: UserService) {

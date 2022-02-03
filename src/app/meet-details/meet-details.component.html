@@ -1,7 +1,7 @@
 <section>
-  <b>Your meet preferences</b>
+  <b>In-person meeting preferences</b>
   <div class="hh">Answer the following questions specifically about the meet you will attend</div>
-  <div class="h">How closely must someone match what you described?</div>
+  <div class="h">How closely must someone match what you described?<span class="required">*</span></div>
   <app-checkbox-group [(checked)]="user.quiz.minimumMatchPercent"
                       [layout]="'col'"
                       [options]="[
@@ -29,11 +29,11 @@
       </div>
     </div>
   </div>
-  <hr />
-  <div class="sm m"><b>Disclaimers</b></div>
-  <label class="sm"><input type="checkbox" [(ngModel)]="user.quiz.legal.disclaimer" />I understand that meeting new people comes with associated risks and that I am using this platform at my own risk.</label><br />
-  <label class="sm"><input type="checkbox" [(ngModel)]="user.quiz.legal.tos" />I certify that I am using FindFriends.com only for the purpose of finding personal friends.  I am not soliciting, advertising, attempting to persuade others or otherwise seeking something other than a personal friend.</label>
-</section>
+  <br />
+  <div class="h">How do we contact you about potential friends?<span class="required">*</span></div>
+  <div class="hh">Enter a phone number or email address.</div>
+  <input [(ngModel)]="user.quiz.contact" />
+ </section>
 <footer>
   <a (click)="next()">Submit</a>
 </footer>

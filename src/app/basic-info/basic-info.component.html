@@ -2,16 +2,16 @@
 <section>
   <b>Basic information</b>
   <div>
-    <div class="h">What's your first name?</div>
+    <div class="h">What's your first name?<span class="required">*</span></div>
     <input [(ngModel)]="user.quiz.name" />
-    <div class="h">Search for your city or town</div>
+    <div class="h">Search for your city or town<span class="required">*</span></div>
     <input [(ngModel)]="user.quiz.city" (ngModelChange)="autocomplete($event)" />
     <div class="autocomplete" *ngIf="citySuggestions.length">
       <div *ngFor="let x of citySuggestions" (click)="chooseAutocomplete(x)">
         {{ x.name }}, {{ x.state }}
       </div>
     </div>
-    <div class="h">Find friends within</div>
+    <div class="h">Find friends within<span class="required">*</span></div>
     <select [(ngModel)]="user.quiz.distance">
       <option [disabled]="true" [selected]="true" [value]="null">Please choose an option</option>
       <option [value]="0">My city/town</option>
@@ -21,16 +21,16 @@
       <option [value]="40">40 miles of my city/town</option>
       <option [value]="50">50 miles of my city/town</option>
     </select>
-    <div class="h">Your demographics</div>
+    <div class="h">Your details</div>
     <app-checkbox-group
-      [(checked)]="user.quiz.personDemographics.gender"
+      [(checked)]="user.quiz.personDetails.gender"
       [options]="[
         { title: 'Male' },
         { title: 'Female' }
       ]"
     ></app-checkbox-group>
     <app-checkbox-group
-      [(checked)]="user.quiz.personDemographics.age"
+      [(checked)]="user.quiz.personDetails.age"
       [layout]="'odds'"
       [options]="[
         { title: 'Lower 20s' },
@@ -44,9 +44,31 @@
         { title: '60 and up' }
       ]"
     ></app-checkbox-group>
-    <div class="h">The demographics of the friend you are want to find</div>
     <app-checkbox-group
-      [(checked)]="user.quiz.friendDemographics.genders"
+      [(checked)]="user.quiz.personDetails.married"
+      [options]="[
+        { title: 'Married' },
+        { title: 'Not married' }
+      ]"
+    ></app-checkbox-group>
+    <app-checkbox-group
+      [(checked)]="user.quiz.personDetails.kids"
+      [options]="[
+        { title: 'Has kids' },
+        { title: 'Has grown kids' },
+        { title: 'Does not have kids' },
+      ]"
+    ></app-checkbox-group>
+    <app-checkbox-group
+      [(checked)]="user.quiz.personDetails.pets"
+      [options]="[
+        { title: 'Has pets' },
+        { title: 'Does not have pets' }
+      ]"
+    ></app-checkbox-group>
+    <div class="h">The details of the friend you want to find</div>
+    <app-checkbox-group
+      [(checked)]="user.quiz.friendDetails.genders"
       [multiple]="true"
       [options]="[
         { title: 'Male' },
@@ -54,7 +76,7 @@
       ]"
     ></app-checkbox-group>
     <app-checkbox-group
-      [(checked)]="user.quiz.friendDemographics.ages"
+      [(checked)]="user.quiz.friendDetails.ages"
       [multiple]="true"
       [layout]="'odds'"
       [options]="[
@@ -67,16 +89,38 @@
         { title: 'Lower 50s' },
         { title: 'Upper 50s' },
         { title: '60 and up' }
+      ]"
+    ></app-checkbox-group>
+    <app-checkbox-group
+      [(checked)]="user.quiz.friendDetails.married"
+      [multiple]="true"
+      [options]="[
+        { title: 'Married' },
+        { title: 'Not married' }
+      ]"
+    ></app-checkbox-group>
+    <app-checkbox-group
+      [(checked)]="user.quiz.friendDetails.kids"
+      [multiple]="true"
+      [options]="[
+        { title: 'Has kids' },
+        { title: 'Has grown kids' },
+        { title: 'Does not have kids' },
+      ]"
+    ></app-checkbox-group>
+    <app-checkbox-group
+      [(checked)]="user.quiz.friendDetails.pets"
+      [multiple]="true"
+      [options]="[
+        { title: 'Has pets' },
+        { title: 'Does not have pets' }
       ]"
     ></app-checkbox-group>
     <div class="radio-group">
-      <label><input type="checkbox" [(ngModel)]="user.quiz.friendDemographics.matchWhenAbsent" />Include people who did not provide this information</label>
+      <label><input type="checkbox" [(ngModel)]="user.quiz.friendDetails.matchWhenAbsent" />Include people who did not provide this information</label>
     </div>
-    <div class="h">How should we contact you about potential friends?</div>
-    <div class="hh">Enter a phone number or email address.</div>
-    <input [(ngModel)]="user.quiz.contact" />
   </div>
 </section>
 <footer>
-  <a (click)="next()">Continue to details about your friend</a>
+  <a (click)="next()">Continue to describe the friend you want to find</a>
 </footer>

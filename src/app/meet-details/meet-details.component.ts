@@ -13,7 +13,7 @@ export class MeetDetailsComponent implements OnInit {
     'Smoking',
     'Vaping',
     'Swearing',
-    'Not talking',
+    'Disrespecting others',
   ]
 
   meetPlaces = [
@@ -23,8 +23,7 @@ export class MeetDetailsComponent implements OnInit {
     'Restaurant',
     'Bar',
     'Mall',
-    'On the street',
-    'Anything goes',
+    'Collage / University Campus',
   ]
 
   constructor(public user: UserService, private router: Router) {
@@ -51,8 +50,12 @@ export class MeetDetailsComponent implements OnInit {
       remaining = `${remaining}\nPlease choose how closely someone must match`
     }
 
+    if (!this.user.quiz.contact) {
+      remaining = `${remaining}\nPlease enter a phone number or email address`
+    }
+
     if (!this.user.quiz.legal.tos || !this.user.quiz.legal.disclaimer) {
-      remaining = `${remaining}\nYou must accept both disclaimers`
+      remaining = `${remaining}\nYou must accept the disclaimers`
     }
 
     if (remaining) {

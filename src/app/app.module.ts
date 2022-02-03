@@ -14,6 +14,7 @@ import {FormsModule} from "@angular/forms";
 import { CheckboxGroupComponent } from './checkbox-group/checkbox-group.component';
 import { ChoicesComponent } from './choices/choices.component';
 import {HttpClientModule} from "@angular/common/http";
+import { DisclaimersComponent } from './disclaimers/disclaimers.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {HttpClientModule} from "@angular/common/http";
     SubmittedComponent,
     AttendComponent,
     CheckboxGroupComponent,
-    ChoicesComponent
+    ChoicesComponent,
+    DisclaimersComponent
   ],
     imports: [
       BrowserModule,

@@ -33,7 +33,7 @@ export class ScenariosComponent implements OnInit {
     this.required = false
 
     if (this.id + 1 < this.scenario.scenarios.length) {
-      this.id++
+      this.router.navigate([ `/scenarios/${this.id + 1 + 1}` ])
     } else {
       this.router.navigate([ '/meet' ])
     }
