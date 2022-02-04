@@ -42,8 +42,8 @@
     <div class="map" [style.background-image]="'url(' + img(x.geo) + ')'">
       <div class="pin"></div>
     </div>
-    {{ meetChosen === x.id ? 'You and ' : '' }} {{ x.attendees }} {{ x.attendees === 1 ? 'person' : 'people' }} suggested this time and place.<br />
-    <a *ngIf="meetChosen !== x.id" href="javascript:" (click)="meetChosen = x.id">{{ meetChosen ? 'Change your suggestion to this place' : 'Suggest this place' }}</a>
+    {{ meetChosen === x.id ? 'You and ' : '' }} {{ x.attendees }} {{ x.attendees === 1 ? 'person' : 'people' }} voted for this time and place.<br />
+    <a *ngIf="meetChosen !== x.id" href="javascript:" (click)="meetChosen = x.id">{{ meetChosen ? 'Change your vote to this place' : 'Vote for this place' }}</a>
     <hr />
   </ng-container>
   <ng-container *ngIf="!timeIsExpired">
@@ -68,7 +68,7 @@
       <option *ngFor="let day of days" [value]="day.time">{{ day.text }}</option>
     </select>
     <br />
-    <input type="time" [(ngModel)]="searchTime" />
+    <input type="time" [(ngModel)]="searchTime" (ngModelChange)="validateTime()" />
     <br />
     <br />
     <a (click)="addMeetSuggestion()">Suggest this time and place</a><br /><br />

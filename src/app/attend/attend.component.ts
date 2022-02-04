@@ -127,6 +127,12 @@ export class AttendComponent implements OnInit {
     const t = isToday(date) ? 'Today' : isTomorrow(date) ? 'Tomorrow' : ''
     return t + format(date, `${ t ? '' : 'EEEE' }, MMMM do`)
   }
+
+  validateTime() {
+    if (!this.searchTime) {
+      this.searchTime = '12:00'
+    }
+  }
 }
 
 interface DayOption {
