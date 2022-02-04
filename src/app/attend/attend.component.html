@@ -15,7 +15,7 @@
     <br />
     {{
       timeIsExpired ? 'A meet has been scheduled with you and 4 other people.' :
-        'We found 4 people that match with who you are looking for.'
+        'We grouped you with 4 people that are potentially great friends for you.'
     }}
   </p>
   <ng-container *ngIf="timeIsExpired && place">
@@ -83,10 +83,15 @@
   </ng-container>
   <hr *ngIf="!timeIsExpired"  />
   <a *ngIf="!timeIsExpired" (click)="expired()">Reload this page</a>
-  <p *ngIf="!timeIsExpired" class="sm">
+  <div *ngIf="!timeIsExpired" class="sm m">
     <b>How do meets get scheduled?</b><br />
-    When more than half of all attendees vote for a suggestion, or a suggestion with two or more attendees is less than 12 hours away,
-    those attendees will be confirmed for that time and place.
-  </p>
+    <ol>
+      <li>The people in this group suggest one or more places to meet</li>
+      <li>Everyone votes on the suggested places</li>
+      <li>A call is made for the place with the most votes, and the meet is scheduled</li>
+      <li>If people remain, a call made made for the 2nd most voted place, and so on</li>
+      <li>If a single person remains, people are able to attend a second meet to meet them as well</li>
+    </ol>
+  </div>
   <a routerLink="/" *ngIf="!timeIsExpired">Do not attend this meet</a>
 </section>

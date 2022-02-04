@@ -26,9 +26,9 @@ export class UserService {
       married: [] as Array<String>,
       kids: [] as Array<String>,
       pets: [] as Array<String>,
-      matchWhenAbsent: false
+      includeWhenAbsent: false
     },
-    minimumMatchPercent: 0,
+    minimumSimilarity: 0,
     friendFacts: {} as { [ key: string ]: Choice },
     friendScenarios: {} as { [ key: string ]: Choice },
     meetPreferences: {} as { [ key: string ]: Choice },

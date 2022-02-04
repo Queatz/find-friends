@@ -1,8 +1,8 @@
 <section>
   <b>In-person meeting preferences</b>
   <div class="hh">Answer the following questions specifically about the meet you will attend</div>
-  <div class="h">How closely must someone match what you described?<span class="required">*</span></div>
-  <app-checkbox-group [(checked)]="user.quiz.minimumMatchPercent"
+  <div class="h">How similarly must and others answer to be grouped together?<span class="required">*</span></div>
+  <app-checkbox-group [(checked)]="user.quiz.minimumSimilarity"
                       [layout]="'col'"
                       [options]="[
                         { title: '>90%', value: 90 },

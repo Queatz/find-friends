@@ -46,8 +46,8 @@ export class MeetDetailsComponent implements OnInit {
   next() {
     let remaining = ''
 
-    if (!this.user.quiz.minimumMatchPercent) {
-      remaining = `${remaining}\nPlease choose how closely someone must match`
+    if (!this.user.quiz.minimumSimilarity) {
+      remaining = `${remaining}\nPlease choose a minimum similarity`
     }
 
     if (!this.user.quiz.contact) {

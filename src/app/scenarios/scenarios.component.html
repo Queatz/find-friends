@@ -6,7 +6,7 @@
   </p>
   <div class="h">What would your friend do?</div>
   <div class="radio-group">
-    <label class="sm"><input type="checkbox" [(ngModel)]="required"  />Do not match me with people who answered different from me for this scenario</label>
+    <label class="sm"><input type="checkbox" [(ngModel)]="required"  />Do not group me with people who answered different from me for this scenario</label>
   </div>
   <div class="option-links">
     <a (click)="select(text)" *ngFor="let text of scenario.scenarios[id].choices">{{ text }}</a>

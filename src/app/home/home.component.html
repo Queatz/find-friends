@@ -1,28 +1,28 @@
 <section>
   <b>Hello!</b>
   <p>
-    <b>Did you know</b> that you don't need to change who you are in order to find great friends?
+    <b>Did you know</b> that you don't need to change who you are or even spend any time searching in order to find great friends?
   </p>
   <p>
-    <b>MoreFriends.org</b> is a website to help you find great friends that live in your general area. Simply fill out the quiz and you will be matched with people
+    Spend just <b>15 minutes</b> today filling out the following quiz and we'll do our best to find you a <b>life long friend</b>.
+  </p>
+  <p>
+    <b>MoreFriends.org</b> is a website to help you find great friends that live in your general area. Simply fill out the following quiz once and you will be regularly grouped with people
     similar to who you want to find.
   </p>
   <div class="note">
-    All information you provide is confidential and is never shared with other users or leaves this platform.
+    All information you provide is confidential, is never shared with other users, and never leaves this platform.
   </div>
   <p>
     <b>How does it work?</b>
   </p>
   <ol>
-    <li>You fill out a bit of information about yourself, and describe the friend you want to find by answering a series of questions</li>
-    <li>You choose how close of a match you want, and a few other preferences for meeting potential friends</li>
-    <li>Every Wednesday morning you will receive a message from the system with potential matches if they are found</li>
-    <li>People who match can vote on a time and place to meet together</li>
+    <li>You fill out a bit of information about yourself, and describe a friend you would like to have by answering a series of questions</li>
+    <li>You choose how similarly others must answer to be grouped with you, and a few other preferences for meeting potential friends</li>
+    <li>Every Wednesday morning you will receive a message from the system with potential groups if they are found</li>
+    <li>People who are grouped can vote on a time and place to meet together</li>
     <li>Meet up and get to know each other. Don’t forget to ask each other a lot of questions.</li>
   </ol>
-  <p>
-    Spend just 15 minutes today filling out the following quiz and we'll do our best to find you a life long friend.
-  </p>
   <p>
     Okay, let’s find some friends!
   </p>
@@ -40,17 +40,21 @@
     </p>
     <form>
       <input placeholder="Phone number or email" />
+      <a (click)="codeSent = true">Send me a code</a>
+      <br *ngIf="codeSent" />
+      <br *ngIf="codeSent" />
+      <input *ngIf="codeSent" placeholder="6-digit code" />
     </form>
-    <a>Send me a code</a>
+    <a *ngIf="codeSent">Go to my quiz</a>
   </div>
   <div class="box note">
     <b>Make a suggestion for MoreFriends.org</b>
     <p>
-      Are we missing important questions or scenarios in the quiz? Suggest an improvement!
+      Are we missing important questions or scenarios in the quiz? Share an idea!
     </p>
     <form>
       <input placeholder="Share your idea" />
     </form>
-    <a>Send suggestion or feedback</a>
+    <a>Send idea</a>
   </div>
 </aside>
