@@ -55,17 +55,21 @@
     ></app-checkbox-group>
     <app-checkbox-group
       [(checked)]="user.quiz.personDetails.kids"
+      [layout]="'col'"
+      [multiple]="true"
       [options]="[
-        { title: 'Has kids' },
-        { title: 'Has grown kids' },
+        { title: 'Has kids under 10' },
+        { title: 'Has kids 11 to 17yrs' },
+        { title: 'Has kids 18+' },
         { title: 'Does not have kids' },
       ]"
     ></app-checkbox-group>
     <app-checkbox-group
       [(checked)]="user.quiz.personDetails.pets"
+      [layout]="'col'"
       [options]="[
-        { title: 'Has pets' },
-        { title: 'Does not have pets' }
+        { title: 'Has house pets (Dogs, cats, pigs, etc.)' },
+        { title: 'Does not have house pets' }
       ]"
     ></app-checkbox-group>
     <div class="h">The details of the friend you want to find</div>

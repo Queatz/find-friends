@@ -4,7 +4,7 @@ class Model {
   id!: string
 }
 
-export class Quiz {
+export class Quiz extends Model {
   name = ''
   city = ''
   geo = [] as Array<number>
@@ -14,7 +14,7 @@ export class Quiz {
     gender: null as string | null,
     age: null as string | null,
     married: null as string | null,
-    kids: null as string | null,
+    kids: [] as Array<String>,
     pets: null as string | null,
   }
   friendDetails = {

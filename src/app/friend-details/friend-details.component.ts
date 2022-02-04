@@ -21,7 +21,7 @@ export class FriendDetailsComponent implements OnInit {
     'Drinks alcohol',
     'Vapes',
     'Uses drugs',
-    'Smokes marijuana / weed',
+    'Smokes cannabis / weed',
     'Smokes cigarettes / tobacco',
   ]
 

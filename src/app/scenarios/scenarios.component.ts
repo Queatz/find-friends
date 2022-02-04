@@ -19,13 +19,14 @@ export class ScenariosComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.id = Number(params.get('id')) - 1
+      this.required = this.user.quiz.friendScenarios[this.id.toString()]?.required || false
 
       this.cr.detectChanges()
     })
   }
 
   select(text?: string): void {
-    this.user.quiz.friendScenarios[String(this.id)] = {
+    this.user.quiz.friendScenarios[this.id.toString()] = {
       choice: text || null,
       required: this.required
     }

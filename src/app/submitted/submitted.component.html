@@ -1,4 +1,10 @@
-<section>
+<section *ngIf="!state">
+  Hang tight!
+</section>
+<section *ngIf="state === 'error'">
+  Sadly, there was a error submitting your quiz.  We will look into this and hopefully fix it soon!
+</section>
+<section *ngIf="state === 'success'">
   <b>You're all set!</b>
   <p>
     We will contact you soon after we've discover potential friends for you.
@@ -12,7 +18,4 @@
 </section>
 <footer>
   <a routerLink="/">Return to homepage</a>
-  <br />
-  <br />
-  <a routerLink="/attend/123456">You get a text message to attend a meet</a>
 </footer>

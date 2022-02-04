@@ -6,7 +6,8 @@ import {Quiz} from "./models";
 })
 export class UserService {
 
-  name: String = ''
+  name: string = ''
+  token: string = ''
 
   quiz = new Quiz()
 

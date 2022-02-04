@@ -1,0 +1,9 @@
+
+Todo
+====
+
+ [ ] Collect errors submitting quizzes in db
+ [ ] How to handle people creating a quiz under the same email or phone number
+    [ ] They can enter a code to overwrite, change the contact info, or discard
+
+ [ ] Unique constraint on quiz.contact

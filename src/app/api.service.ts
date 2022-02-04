@@ -1,77 +1,81 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Attend, Meet, Place, Quiz} from "./models";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  key!: string
+  /**
+   * The meet attend key
+   */
+  key = ''
 
   constructor(private http: HttpClient) {
   }
 
   getCode(body: GetCodePostBody) {
-    return this.http.post<SuccessApiResponse>('/get-code', body)
+    return this.http.post<SuccessApiResponse>(`${environment.api}/get-code`, body)
   }
 
   getQuiz(body: GetQuizPostBody) {
-    return this.http.post<GetQuizApiResponse>('/get-quiz', body)
+    return this.http.post<GetQuizApiResponse>(`${environment.api}/get-quiz`, body)
   }
 
   createQuiz(body: QuizPostBody) {
-    return this.http.post<Quiz>('/quiz', body)
+    return this.http.post<Quiz>(`${environment.api}/quiz`, body)
   }
 
   updateQuiz(body: QuizUpdatePostBody) {
-    return this.http.post<Quiz>(`/quiz/${this.key}`, body)
+    return this.http.post<Quiz>(`${environment.api}/quiz/${body?.quiz?.id?.split('/')?.[1]}`, body)
   }
 
   createIdea(body: IdeaPostBody) {
-    return this.http.post<SuccessApiResponse>('/idea', body)
+    return this.http.post<SuccessApiResponse>(`${environment.api}/idea`, body)
   }
 
   getMeet() {
-    return this.http.get<MeetAttendanceApiResponse>(`/meet/${this.key}`)
+    return this.http.get<MeetAttendanceApiResponse>(`${environment.api}/meet/${this.key}`)
   }
 
   createMeetPlace(body: MeetPlacesPostBody) {
-    return this.http.post<MeetAttendanceApiResponse>(`/meet/${this.key}/places`, body)
+    return this.http.post<MeetAttendanceApiResponse>(`${environment.api}/meet/${this.key}/places`, body)
   }
 
   vote(body: VotePostBody) {
-    return this.http.post<MeetAttendanceApiResponse>(`/meet/${this.key}/vote`, body)
+    return this.http.post<MeetAttendanceApiResponse>(`${environment.api}/meet/${this.key}/vote`, body)
   }
 
   confirm(body: ConfirmPostBody) {
-    return this.http.post<MeetAttendanceApiResponse>(`/meet/${this.key}/confirm`, body)
+    return this.http.post<MeetAttendanceApiResponse>(`${environment.api}/meet/${this.key}/confirm`, body)
   }
 
   skipMeet() {
-    return this.http.post<SuccessApiResponse>(`/meet/${this.key}/skip`, null)
+    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${this.key}/skip`, null)
   }
 
   sendMeetMessage(body: MeetMessagePostBody) {
-    return this.http.post<SuccessApiResponse>(`/meet/${this.key}/message`, body)
+    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${this.key}/message`, body)
   }
 
   sendProblem(body: MeetProblemPostBody) {
-    return this.http.post<SuccessApiResponse>(`/meet/${this.key}/problem`, body)
+    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${this.key}/problem`, body)
   }
 
   sendFeedback(body: MeetFeedbackPostBody) {
-    return this.http.post<SuccessApiResponse>(`/meet/${this.key}/feedback`, body)
+    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${this.key}/feedback`, body)
   }
 }
 
 class GetCodePostBody {
-  contact?: String
+  contact?: string
 }
 
 class GetQuizPostBody {
-  contact?: String
-  code?: String
+  contact?: string
+  code?: string
 }
 
 class QuizPostBody {
@@ -79,12 +83,12 @@ class QuizPostBody {
 }
 
 class QuizUpdatePostBody {
-  token?: String
+  token?: string
   quiz?: Quiz
 }
 
 class IdeaPostBody {
-  idea?: String
+  idea?: string
 }
 
 class MeetPlacesPostBody {
@@ -92,23 +96,23 @@ class MeetPlacesPostBody {
 }
 
 class VotePostBody {
-  place?: String
+  place?: string
 }
 
 class ConfirmPostBody {
-  place?: String
+  place?: string
 }
 
 class MeetMessagePostBody {
-  message?: String
+  message?: string
 }
 
 class MeetProblemPostBody {
-  problem?: String
+  problem?: string
 }
 
 class MeetFeedbackPostBody {
-  feedback?: String
+  feedback?: string
 }
 
 class SuccessApiResponse {
@@ -116,7 +120,7 @@ class SuccessApiResponse {
 }
 
 class GetQuizApiResponse {
-  token?: String
+  token?: string
   quiz?: Quiz
 }
 

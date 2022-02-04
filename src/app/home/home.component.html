@@ -38,23 +38,23 @@
     <p>
       You can then re-enable, disable, modify, or remove your existing quiz.
     </p>
-    <form>
-      <input placeholder="Phone number or email" />
-      <a (click)="codeSent = true">Send me a code</a>
+    <div>
+      <input [(ngModel)]="contact" placeholder="Phone number or email" />
+      <a (click)="getCode()">Send me a code</a>
       <br *ngIf="codeSent" />
       <br *ngIf="codeSent" />
-      <input *ngIf="codeSent" placeholder="6-digit code" />
-    </form>
-    <a *ngIf="codeSent">Go to my quiz</a>
+      <input [(ngModel)]="code" *ngIf="codeSent" placeholder="6-digit code" />
+    </div>
+    <a *ngIf="codeSent" (click)="getQuiz()">Go to my quiz</a>
   </div>
   <div class="box note">
     <b>Make a suggestion for MoreFriends.org</b>
     <p>
       Are we missing important questions or scenarios in the quiz? Share an idea!
     </p>
-    <form>
-      <input placeholder="Share your idea" />
-    </form>
+    <div>
+      <input [(ngModel)]="idea" placeholder="Share your idea" />
+    </div>
     <a>Send idea</a>
   </div>
 </aside>
