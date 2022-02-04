@@ -7,3 +7,9 @@ Todo
     [ ] They can enter a code to overwrite, change the contact info, or discard
 
  [ ] Unique constraint on quiz.contact
+
+
+Open questions
+==============
+
+ [ ] Can a 1-on-1 phone call be a meet? i.e. people in more rural areas

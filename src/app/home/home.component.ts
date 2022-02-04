@@ -20,6 +20,25 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  sendIdea() {
+    if (!this.idea) {
+      return
+    }
+
+    this.api.createIdea({
+      idea: this.idea
+    }).subscribe({
+      next: () => {
+        alert('Thank you for your feedback!')
+        this.idea = ''
+        this.cr.detectChanges()
+      },
+      error: () => {
+        alert('Something went wrong')
+      }
+    })
+  }
+
   getQuiz() {
     if (!this.code) {
       return
