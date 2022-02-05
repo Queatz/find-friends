@@ -10,6 +10,7 @@ import {ApiService} from "../api.service";
 export class SubmittedComponent implements OnInit {
 
   state: '' | 'success' | 'error' = ''
+  error = ''
 
   constructor(public user: UserService, private api: ApiService) {
   }
@@ -21,14 +22,20 @@ export class SubmittedComponent implements OnInit {
         quiz: this.user.quiz
       }).subscribe({
         next: () => this.state = 'success',
-        error: () => this.state = 'error'
+        error: err => {
+          this.state = 'error'
+          this.error = err.statusText
+        }
       })
     } else {
       this.api.createQuiz({
         quiz: this.user.quiz
       }).subscribe({
         next: () => this.state = 'success',
-        error: () => this.state = 'error'
+        error: err => {
+          this.state = 'error'
+          this.error = err.statusText
+        }
       })
     }
   }

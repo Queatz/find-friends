@@ -2,7 +2,12 @@
   Hang tight!
 </section>
 <section *ngIf="state === 'error'">
-  Sadly, there was a error submitting your quiz.  We will look into this and hopefully fix it soon!
+  <p>
+    Sadly, there was a error submitting your quiz.  We will look into this and hopefully fix it soon!
+  </p>
+  <div *ngIf="error" class="h">
+    {{ error }}
+  </div>
 </section>
 <section *ngIf="state === 'success'">
   <b>You're all set!</b>

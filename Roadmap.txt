@@ -1,15 +1,45 @@
 
+Next
+====
+
+  [ ] Twilio SMS
+  [ ] Send Email
+  [ ] Create meet on server
+    [ ] Access meet by key from SMS/Email
+    [ ] Suggest place
+    [ ] Vote for place
+    [ ] Confirm vote for place
+    [ ] Skip the meet
+    [ ] Send meet message
+    [ ] Send problem with meet
+    [ ] Send feedback for meet
+
+SMS + Email
+
+  [ ] When a meet has 50% of the votes
+      "Can you attend the meet at Tiger Lake tomorrow at 4:00PM?"
+  [ ] When 2+ attendees confirm yes
+      "You're confirmed for ___"
+  [ ] When 2+ attendees confirm no
+      "Can you attend the meet at ___?"
+
 Todo
 ====
 
- [ ] Collect errors submitting quizzes in db
- [ ] How to handle people creating a quiz under the same email or phone number
+  [ ] Don't group people who already met
+
+  [ ] Collect errors submitting quizzes in db
+  [ ] How to handle people creating a quiz under the same email or phone number
     [ ] They can enter a code to overwrite, change the contact info, or discard
 
- [ ] Unique constraint on quiz.contact
+  [ ] Unique constraint on quiz.contact
 
+  [ ] Enable/disable quiz
+  [ ] Remove quiz
 
 Open questions
 ==============
 
- [ ] Can a 1-on-1 phone call be a meet? i.e. people in more rural areas
+ [ ] Can a 1-on-1 phone call be a meet? i.e. people in more rural areas (later feature)
+ [ ] People could end up matching with 2 totally separate groups
+    [ ] For now, just put them in the biggest group

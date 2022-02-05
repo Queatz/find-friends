@@ -34,6 +34,7 @@ export class Quiz extends Model {
     disclaimer: false,
     tos: false
   }
+  paused = false
 }
 
 export class Attend extends Model {

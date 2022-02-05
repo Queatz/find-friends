@@ -11,7 +11,7 @@
 </section>
 <section *ngIf="!meetHasAlreadyBegun">
   <p>
-    Dear {{ user.name  || user.quiz.name || 'human' }},<br />
+    Dear {{ user.name || user.quiz.name || 'human' }},<br />
     <br />
     {{
       timeIsExpired ? 'A meet has been scheduled with you and 4 other people.' :
