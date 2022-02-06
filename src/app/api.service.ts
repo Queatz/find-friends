@@ -126,6 +126,7 @@ export class GetQuizApiResponse {
 
 export class MeetAttendanceApiResponse {
   attend?: Attend
+  name?: string
   attendees?: number
   places?: Array<PlaceWithVotes>
 }

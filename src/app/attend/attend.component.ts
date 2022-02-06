@@ -5,6 +5,7 @@ import {delay, Subscription} from "rxjs";
 import {format, isToday, isTomorrow, startOfToday} from "date-fns";
 import {ActivatedRoute} from "@angular/router";
 import {ApiService, MeetAttendanceApiResponse} from "../api.service";
+import {PlaceWithVotes} from "../models";
 
 @Component({
   selector: 'app-attend',
@@ -167,24 +168,16 @@ export class AttendComponent implements OnInit {
     }
   }
 
-  private load() {
+  load() {
     this.loading = true
     this.api.getMeet().subscribe({
       next: result => {
+        this.user.name = result.name || ''
+
         this.result = result
         this.loading = false
 
-        this.result.places?.forEach(it => {
-          this.suggestions.push({
-            id: it.place.id!,
-            name: it.place.name!,
-            address: it.place.address!,
-            geo: it.place.geo!,
-            voted: it.voted,
-            date: this.time(new Date(it.place.date)),
-            attendees: it.votes
-          })
-        })
+        this.setPlaces(this.result.places!)
 
         this.cr.detectChanges()
       },
@@ -198,7 +191,36 @@ export class AttendComponent implements OnInit {
   }
 
   vote(suggestion: Suggestion) {
-    // todo
+    this.api.vote({
+      place: suggestion.id
+    }).subscribe({
+      next: result => {
+        this.result = result
+
+        this.setPlaces(this.result.places!)
+
+        this.cr.detectChanges()
+      },
+      error: err => {
+        // todo
+      }
+    })
+  }
+
+  private setPlaces(places: Array<PlaceWithVotes>) {
+    this.suggestions.length = 0
+
+    places.forEach(it => {
+      this.suggestions.push({
+        id: it.place.id!,
+        name: it.place.name!,
+        address: it.place.address!,
+        geo: it.place.geo!,
+        voted: it.voted,
+        date: this.time(new Date(it.place.date)),
+        attendees: it.votes
+      })
+    })
   }
 }
 

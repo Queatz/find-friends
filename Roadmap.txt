@@ -38,9 +38,11 @@ group formed
 Todo
 ====
 
+  [ ] Sort places by votes, soonest
+
   [ ] Don't attempt to send code if quiz with that contact does not exist
 
-  [ ] Don't group people who already met
+  [X] Don't group people who already met
 
   [ ] Collect errors submitting quizzes in db
   [ ] How to handle people creating a quiz under the same email or phone number

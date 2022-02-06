@@ -31,10 +31,10 @@
     Dear {{ user.name || user.quiz.name || 'human' }},<br />
     <br />
     <span *ngIf="timeIsExpired">
-      A meet has been scheduled with you and {{ result?.attendees || '-' }} other {{ result?.attendees === 1 ? 'person' : 'people' }}.
+      A meet has been scheduled with you and {{ result!.attendees! - 1 }} other {{ result!.attendees! - 1 === 1 ? 'person' : 'people' }}.
     </span>
     <span *ngIf="!timeIsExpired">
-      We've grouped you with {{ result?.attendees || '-' }} {{ result?.attendees === 1 ? 'person' : 'people' }} that are potentially great friends for you.
+      We've grouped you with {{ result!.attendees! - 1 }} {{ result!.attendees! - 1 === 1 ? 'person' : 'people' }} that are potentially great friends for you.
     </span>
 
   </p>
@@ -56,13 +56,13 @@
   </ng-container>
   <ng-container *ngFor="let x of suggestions">
     <p>
-      Someone suggested <b>{{ x.name }}</b> at <b>{{ x.date }}</b>.<br />
+      Someone suggested meeting at <b>{{ x.name }}</b> at <b>{{ x.date }}</b>.<br />
     </p>
     <a href="#">{{ x.address }}</a>
     <div class="map" [style.background-image]="'url(' + img(x.geo) + ')'">
       <div class="pin"></div>
     </div>
-    {{ x.voted ? 'You and ' : '' }} {{ x.attendees }} {{ x.attendees === 1 ? 'person' : 'people' }} voted for this time and place.<br />
+    {{ x.voted ? 'You and ' : '' }} {{ x.attendees - (x.voted ? 1 : 0) }} {{ x.voted ? 'other' : '' }}  {{ x.attendees - (x.voted ? 1 : 0) === 1 ? 'person' : 'people' }} voted for this time and place.<br />
     <a *ngIf="!x.voted" href="javascript:" (click)="vote(x)">{{ meetChosen ? 'Change your vote to this place' : 'Vote for this place' }}</a>
     <hr />
   </ng-container>
@@ -91,7 +91,7 @@
     <input type="time" [(ngModel)]="searchTime" (ngModelChange)="validateTime()" />
     <br />
     <br />
-    <a (click)="addMeetSuggestion()">Suggest this time and place</a><br /><br />
+    <a (click)="addMeetSuggestion()">Suggest this time and place</a><br />
   </ng-container>
   <ng-container *ngIf="timeIsExpired">
     <a (click)="meetHasAlreadyBegun = true">I can no longer attend this meet</a>
@@ -102,7 +102,7 @@
     <br />
   </ng-container>
   <hr *ngIf="!timeIsExpired"  />
-  <a *ngIf="!timeIsExpired" (click)="expired()">Reload this page</a>
+  <a *ngIf="!timeIsExpired" (click)="load()">Reload this page</a>
   <div *ngIf="!timeIsExpired" class="sm m">
     <b>How do meets get scheduled?</b><br />
     <ol>
