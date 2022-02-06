@@ -7,6 +7,7 @@
   <br />
   <a routerLink="/">Return to homepage</a><br /><br />
 </section>
+
 <section *ngIf="loading">
   <p>
     Loading meet, please wait...
@@ -16,7 +17,8 @@
   <br />
   <a routerLink="/">Return to homepage</a><br /><br />
 </section>
-<section *ngIf="!error && meetHasAlreadyBegun && result">
+
+<section *ngIf="!error && attendedAndPassed(meet)">
   <p>
     This meet already happened.
   </p>
@@ -26,47 +28,65 @@
   <a routerLink="/">Tell us about a problem</a><br /><br />
   <a routerLink="/">Return to homepage</a><br /><br />
 </section>
-<section *ngIf="!error && !meetHasAlreadyBegun && result">
+
+<section *ngIf="!error && !loading && result">
   <p>
     Dear {{ user.name || user.quiz.name || 'human' }},<br />
     <br />
-    <span *ngIf="timeIsExpired">
-      A meet has been scheduled with you and {{ result!.attendees! - 1 }} other {{ result!.attendees! - 1 === 1 ? 'person' : 'people' }}.
-    </span>
-    <span *ngIf="!timeIsExpired">
+    <span *ngIf="step === 'vote'">
       We've grouped you with {{ result!.attendees! - 1 }} {{ result!.attendees! - 1 === 1 ? 'person' : 'people' }} that are potentially great friends for you.
     </span>
-
+    <span  *ngIf="step === 'confirm'">
+      The following place has received the most votes.
+    </span>
+    <span *ngIf="step === 'scheduled'">
+      <ng-container *ngIf="meet!.attendees === 1">
+        The following meet has been scheduled. Additional people are still responding.
+      </ng-container>
+      <ng-container *ngIf="meet!.attendees > 1">
+        A meet has been scheduled with you and {{ meet!.attendees! - 1 }} other {{ meet!.attendees! - 1 === 1 ? 'person' : 'people' }}.
+        {{ meet!.attendees === result.attendees ? '' :  'Additional people may still respond and attend.' }}
+      </ng-container>
+    </span>
   </p>
-  <ng-container *ngIf="timeIsExpired && place">
+
+  <ng-container *ngIf="meet">
     <div class="h">Place</div>
-    <a href="#">{{ place.name }}, {{ place.address }}</a>
+    <a href="#">{{ meet.place.name }}, {{ meet.place.address }}</a>
     <div class="h">Time</div>
     <div>
-      {{ place.date }}
+      {{ time(meet.place.date) }}
     </div>
-    <div class="map" [style.background-image]="'url(' + img(place.geo) + ')'">
+    <div class="map" [style.background-image]="'url(' + img(meet.place.geo) + ')'">
       <div class="pin"></div>
     </div>
-    <div class="sm">
+    <div class="sm" *ngIf="meet?.confirm?.response">
       Can’t find each other?  Use the input below to help others find you, and we will send them a message on your behalf.
     </div>
-    <input placeholder="Enter message here" class="m" />
-    <a href="javascript:">Send this message to all attendees</a><br /><br />
+    <ng-container *ngIf="step === 'scheduled'">
+      <input [(ngModel)]="meetMessage" placeholder="Enter message here" class="m" />
+      <a *ngIf="meet?.confirm?.response" (click)="sendMeetMessage()">Send this message to all attendees</a>
+      <br *ngIf="meet?.confirm?.response" />
+      <br *ngIf="meet?.confirm?.response" />
+    </ng-container>
   </ng-container>
-  <ng-container *ngFor="let x of suggestions">
-    <p>
-      Someone suggested meeting at <b>{{ x.name }}</b> at <b>{{ x.date }}</b>.<br />
-    </p>
-    <a href="#">{{ x.address }}</a>
-    <div class="map" [style.background-image]="'url(' + img(x.geo) + ')'">
-      <div class="pin"></div>
-    </div>
-    {{ x.voted ? 'You and ' : '' }} {{ x.attendees - (x.voted ? 1 : 0) }} {{ x.voted ? 'other' : '' }}  {{ x.attendees - (x.voted ? 1 : 0) === 1 ? 'person' : 'people' }} voted for this time and place.<br />
-    <a *ngIf="!x.voted" href="javascript:" (click)="vote(x)">{{ meetChosen ? 'Change your vote to this place' : 'Vote for this place' }}</a>
-    <hr />
+
+  <ng-container *ngIf="step === 'vote'">
+    <ng-container *ngFor="let x of suggestions">
+      <p>
+        Someone suggested meeting at <b>{{ x.place.name }}</b> at <b>{{ time(x.place.date) }}</b>.<br />
+      </p>
+      <a href="#">{{ x.place.address }}</a>
+      <div class="map" [style.background-image]="'url(' + img(x.place.geo) + ')'">
+        <div class="pin"></div>
+      </div>
+      {{ x.voted ? 'You and ' : '' }} {{ x.votes - (x.voted ? 1 : 0) }} {{ x.voted ? 'other' : '' }}  {{ x.votes - (x.voted ? 1 : 0) === 1 ? 'person' : 'people' }} voted for this time and place.<br />
+      <a *ngIf="!x.voted" (click)="vote(x)">{{ votedAlready ? 'Change your vote to this place' : 'Vote for this place' }}</a>
+      <hr />
+    </ng-container>
   </ng-container>
-  <ng-container *ngIf="!timeIsExpired">
+
+  <ng-container *ngIf="step === 'vote'">
     <p>
       <b>Suggest {{ suggestions.length ? 'another' : 'a' }} place to meet</b>
     </p>
@@ -82,7 +102,6 @@
     <div class="map" *ngIf="searchMapImg" [style.background-image]="'url(' + searchMapImg + ')'">
       <div class="pin"></div>
     </div>
-
     <div class="h">Suggest a time</div>
     <select [(ngModel)]="searchDate">
       <option *ngFor="let day of days" [value]="day.time">{{ day.text }}</option>
@@ -93,25 +112,35 @@
     <br />
     <a (click)="addMeetSuggestion()">Suggest this time and place</a><br />
   </ng-container>
-  <ng-container *ngIf="timeIsExpired">
-    <a (click)="meetHasAlreadyBegun = true">I can no longer attend this meet</a>
+
+  <ng-container *ngIf="step === 'scheduled'">
+    <a (click)="skipMeet()">I can no longer attend this meet</a>
     <br />
     <br />
-    <a (click)="meetHasAlreadyBegun = true">Tell us about a problem</a>
+    <a (click)="reportAProblem()">Tell us about a problem</a>
     <br />
     <br />
   </ng-container>
-  <hr *ngIf="!timeIsExpired"  />
-  <a *ngIf="!timeIsExpired" (click)="load()">Reload this page</a>
-  <div *ngIf="!timeIsExpired" class="sm m">
-    <b>How do meets get scheduled?</b><br />
-    <ol>
-      <li>The people in this group suggest one or more places to meet</li>
-      <li>Everyone votes on the suggested places</li>
-      <li>A call is made for the place with the most votes, and the meet is scheduled</li>
-      <li>If people remain, a call made made for the 2nd most voted place, and so on</li>
-      <li>If a single person remains, people are able to attend a second meet to meet them as well</li>
-    </ol>
-  </div>
-  <a routerLink="/" *ngIf="!timeIsExpired">Do not attend this meet</a>
+
+  <ng-container *ngIf="step === 'confirm'">
+    <div class="h m">Does this time and place work for you?</div>
+    <a (click)="confirm(true)">Yes, attend this meet</a><br /><br />
+    <a (click)="confirm(false)">No, wait for a 2nd time and place to be proposed</a>
+  </ng-container>
+
+  <ng-container *ngIf="step === 'vote'">
+    <hr />
+    <a (click)="load()">Reload this page</a>
+    <div class="sm m">
+      <b>How do meets get scheduled?</b><br />
+      <ol>
+        <li>The people in this group suggest one or more places to meet</li>
+        <li>Everyone votes on the suggested places</li>
+        <li>A call is made for the place with the most votes, and the meet is scheduled</li>
+        <li>If people remain, a call made made for the 2nd most voted place, and so on</li>
+        <li>If a single person remains, people are able to attend a second meet to meet them as well</li>
+      </ol>
+    </div>
+    <a routerLink="/">Do not attend this meet</a>
+  </ng-container>
 </section>

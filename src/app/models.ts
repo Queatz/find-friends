@@ -44,10 +44,24 @@ export class Attend extends Model {
   skip!: boolean
 }
 
+export class Confirm extends Model {
+  meet!: string
+  attend!: string
+  response!: boolean
+}
+
+
 export class PlaceWithVotes {
   place!: Place
   voted!: boolean
   votes!: number
+}
+
+export class MeetWithAttendance {
+  meet!: Meet
+  place!: Place
+  attendees!: number
+  confirm?: Confirm
 }
 
 export class Place extends Model {

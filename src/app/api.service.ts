@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Attend, Meet, Place, PlaceWithVotes, Quiz} from "./models";
+import {Attend, Meet, MeetWithAttendance, Place, PlaceWithVotes, Quiz} from "./models";
 import {environment} from "../environments/environment";
 
 @Injectable({
@@ -101,6 +101,7 @@ export class VotePostBody {
 
 export class ConfirmPostBody {
   meet?: string
+  response?: boolean
 }
 
 export class MeetMessagePostBody {
@@ -129,4 +130,5 @@ export class MeetAttendanceApiResponse {
   name?: string
   attendees?: number
   places?: Array<PlaceWithVotes>
+  meets?: Array<MeetWithAttendance>
 }

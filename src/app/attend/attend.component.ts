@@ -2,10 +2,10 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {UserService} from "../user.service";
 import {MapService, PlaceResult} from "../map.service";
 import {delay, Subscription} from "rxjs";
-import {format, isToday, isTomorrow, startOfToday} from "date-fns";
+import {addHours, format, isAfter, isToday, isTomorrow, startOfToday} from "date-fns";
 import {ActivatedRoute} from "@angular/router";
 import {ApiService, MeetAttendanceApiResponse} from "../api.service";
-import {PlaceWithVotes} from "../models";
+import {MeetWithAttendance, PlaceWithVotes} from "../models";
 
 @Component({
   selector: 'app-attend',
@@ -14,11 +14,7 @@ import {PlaceWithVotes} from "../models";
 })
 export class AttendComponent implements OnInit {
 
-  suggestions = [] as Array<Suggestion>
-
-  meetChosen?: string
-  timeIsExpired = false
-  meetHasAlreadyBegun = false
+  suggestions = [] as Array<PlaceWithVotes>
 
   days = [] as Array<DayOption>
   search = ''
@@ -29,12 +25,16 @@ export class AttendComponent implements OnInit {
   searchMapImg = ''
   searchTime = '12:00'
   placeSuggestions = [] as Array<PlaceResult>
-  place?: Suggestion
+  meet?: MeetWithAttendance
+  votedAlready = false
+  step?: 'vote' | 'confirm' | 'scheduled'
+
+  meetMessage = ''
 
   result?: MeetAttendanceApiResponse
   error = ''
-  loading = false
 
+  loading = false
   private autocompleteSub?: Subscription
   private lastSearchText = ''
 
@@ -62,13 +62,6 @@ export class AttendComponent implements OnInit {
     this.searchDate = this.days[0].time
   }
 
-
-  expired() {
-    this.timeIsExpired = true
-    this.place = this.suggestions[0]
-    this.suggestions.length = 0
-  }
-
   addMeetSuggestion() {
     if (!this.searchName || !this.searchAddress || !this.searchGeo) {
       alert('Enter a place')
@@ -94,10 +87,6 @@ export class AttendComponent implements OnInit {
       address: this.searchAddress,
       geo: this.searchGeo
     }
-
-    this.suggestions.push(s)
-
-    this.meetChosen = s.id
 
     this.searchDate = this.days[0].time
     this.searchName = ''
@@ -158,8 +147,10 @@ export class AttendComponent implements OnInit {
     return t + format(date, `${ t ? '' : 'EEEE' }, MMMM do`)
   }
 
-  private time(date: Date): string {
-    return `${format(date, 'h:mm a')}, ${this.fmt(date)}`
+  time(date: Date | string): string {
+    const d = date instanceof Date ? date : new Date(Date.parse(date as string))
+
+    return `${format(d, 'h:mm a')}, ${this.fmt(d)}`
   }
 
   validateTime() {
@@ -174,10 +165,9 @@ export class AttendComponent implements OnInit {
       next: result => {
         this.user.name = result.name || ''
 
-        this.result = result
         this.loading = false
 
-        this.setPlaces(this.result.places!)
+        this.setPlaces(result)
 
         this.cr.detectChanges()
       },
@@ -190,14 +180,12 @@ export class AttendComponent implements OnInit {
     })
   }
 
-  vote(suggestion: Suggestion) {
+  vote(suggestion: PlaceWithVotes) {
     this.api.vote({
-      place: suggestion.id
+      place: suggestion.place.id
     }).subscribe({
       next: result => {
-        this.result = result
-
-        this.setPlaces(this.result.places!)
+        this.setPlaces(result)
 
         this.cr.detectChanges()
       },
@@ -207,34 +195,66 @@ export class AttendComponent implements OnInit {
     })
   }
 
-  private setPlaces(places: Array<PlaceWithVotes>) {
-    this.suggestions.length = 0
+  confirm(response: boolean) {
+    this.api.confirm({
+      meet: this.meet!.meet!.id,
+      response: response
+    }).subscribe({
+      next: result => {
+        this.setPlaces(result)
 
-    places.forEach(it => {
-      this.suggestions.push({
-        id: it.place.id!,
-        name: it.place.name!,
-        address: it.place.address!,
-        geo: it.place.geo!,
-        voted: it.voted,
-        date: this.time(new Date(it.place.date)),
-        attendees: it.votes
-      })
+        this.cr.detectChanges()
+      },
+      error: err => {
+        // todo
+      }
     })
+  }
+
+  sendMeetMessage() {
+    // todo
+  }
+
+  skipMeet() {
+    // todo
+  }
+
+  reportAProblem() {
+    // todo
+  }
+
+  private setPlaces(meet: MeetAttendanceApiResponse) {
+    this.result = meet
+
+    this.meet =
+      meet.meets?.find(x => x.confirm?.response === true) ??
+      meet.meets?.find(x => x.confirm?.response !== false)
+
+    this.votedAlready = !!meet.places!.find(x => x.voted)
+
+    if (!this.meet) {
+      this.step = 'vote'
+    } else if (this.meet && !this.meet.confirm) {
+      this.step = 'confirm'
+    } else if (this.meet && this.meet.confirm?.response === true) {
+      this.step = 'scheduled'
+    } else {
+      this.step = 'vote'
+    }
+
+    if (this.step === 'vote') {
+      this.suggestions = meet.places!
+    } else {
+      this.suggestions = meet.meets?.map(it => ({ place: it.place } as PlaceWithVotes)) ?? []
+    }
+  }
+
+  attendedAndPassed(meet?: MeetWithAttendance): boolean {
+    return !!meet?.confirm?.response && isAfter(addHours(meet.place!.date, 1), new Date())
   }
 }
 
 interface DayOption {
   time: number
   text: string
-}
-
-interface Suggestion {
-  id: string
-  name: string
-  address: string
-  date: string
-  attendees: number
-  voted: boolean
-  geo: Array<number>
 }

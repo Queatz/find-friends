@@ -38,7 +38,13 @@ group formed
 Todo
 ====
 
+  [ ] HTTPS
+
   [ ] Sort places by votes, soonest
+
+  [ ] Ensure 2 people suggesting the same place doesn't create 2 places
+
+  [ ] Ensure 2 meets don't get scheduled at the same place for the same group
 
   [ ] Don't attempt to send code if quiz with that contact does not exist
 
