@@ -215,7 +215,24 @@ export class AttendComponent implements OnInit {
   }
 
   sendMeetMessage() {
-    // todo
+    if (!this.meetMessage || !this.meet) {
+      return
+    }
+
+    this.api.sendMeetMessage(this.meet!.meet.id!, {
+      key: this.result!.attend!.key,
+      message: this.meetMessage
+    }).subscribe({
+      next: result => {
+        this.meetMessage = ''
+        alert('Your message has been sent to people attending this meet.')
+
+        this.cr.detectChanges()
+      },
+      error: err => {
+        alert(err.statusText)
+      }
+    })
   }
 
   skipMeet() {
@@ -226,7 +243,7 @@ export class AttendComponent implements OnInit {
         this.cr.detectChanges()
       },
       error: err => {
-        // todo
+        alert(err.statusText)
       }
     })
   }
@@ -239,7 +256,7 @@ export class AttendComponent implements OnInit {
         this.cr.detectChanges()
       },
       error: err => {
-        // todo
+        alert(err.statusText)
       }
     })
   }

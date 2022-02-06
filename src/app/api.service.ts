@@ -69,11 +69,11 @@ export class ApiService {
   }
 
   sendMeetMessage(meetId: string, body: MeetMessagePostBody) {
-    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${meetId}/message`, body)
+    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${meetId.split('/')?.[1]}/message`, body)
   }
 
   sendFeedback(meetId: string, body: MeetFeedbackPostBody) {
-    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${meetId}/feedback`, body)
+    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${meetId.split('/')?.[1]}/feedback`, body)
   }
 }
 
@@ -117,6 +117,7 @@ export class ConfirmPostBody {
 }
 
 export class MeetMessagePostBody {
+  key?: string
   message?: string
 }
 

@@ -31,7 +31,7 @@
 
 <section *ngIf="!error && !loading && result && !attendedAndPassed(meet)">
   <p *ngIf="result.attend!.skip">
-    You've opted to skip this meet.
+    You've opted to not attend this meet.
   </p>
   <p *ngIf="!result.attend!.skip">
     Dear {{ user.name || user.quiz.name || 'human' }},<br />
