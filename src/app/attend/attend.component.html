@@ -29,12 +29,20 @@
   <a routerLink="/">Return to homepage</a><br /><br />
 </section>
 
-<section *ngIf="!error && !loading && result">
-  <p>
+<section *ngIf="!error && !loading && result && !attendedAndPassed(meet)">
+  <p *ngIf="result.attend!.skip">
+    You've opted to skip this meet.
+  </p>
+  <p *ngIf="!result.attend!.skip">
     Dear {{ user.name || user.quiz.name || 'human' }},<br />
     <br />
     <span *ngIf="step === 'vote'">
       We've grouped you with {{ result!.attendees! - 1 }} {{ result!.attendees! - 1 === 1 ? 'person' : 'people' }} that are potentially great friends for you.
+      <span>
+        <br />
+        <br />
+        You and {{ unconfirmed - 1 }} other {{ unconfirmed - 1 === 1 ? 'person' : 'people' }} have not yet selected a meet to attend.
+      </span>
     </span>
     <span  *ngIf="step === 'confirm'">
       The following place has received the most votes.
@@ -60,14 +68,16 @@
     <div class="map" [style.background-image]="'url(' + img(meet.place.geo) + ')'">
       <div class="pin"></div>
     </div>
-    <div class="sm" *ngIf="meet?.confirm?.response">
-      Can’t find each other?  Use the input below to help others find you, and we will send them a message on your behalf.
-    </div>
-    <ng-container *ngIf="step === 'scheduled'">
-      <input [(ngModel)]="meetMessage" placeholder="Enter message here" class="m" />
-      <a *ngIf="meet?.confirm?.response" (click)="sendMeetMessage()">Send this message to all attendees</a>
-      <br *ngIf="meet?.confirm?.response" />
-      <br *ngIf="meet?.confirm?.response" />
+    <ng-container *ngIf="step === 'scheduled' && !result.attend!.skip">
+      <div class="sm">
+        Can’t find each other?  Use the input below to help others find you, and we will send them a message on your behalf.
+      </div>
+      <ng-container>
+        <input [(ngModel)]="meetMessage" placeholder="Enter message here" class="m" />
+        <a (click)="sendMeetMessage()">Send this message to all attendees</a>
+        <br />
+        <br />
+      </ng-container>
     </ng-container>
   </ng-container>
 
@@ -86,7 +96,7 @@
     </ng-container>
   </ng-container>
 
-  <ng-container *ngIf="step === 'vote'">
+  <ng-container *ngIf="step === 'vote' && !result.attend!.skip">
     <p>
       <b>Suggest {{ suggestions.length ? 'another' : 'a' }} place to meet</b>
     </p>
@@ -113,7 +123,7 @@
     <a (click)="addMeetSuggestion()">Suggest this time and place</a><br />
   </ng-container>
 
-  <ng-container *ngIf="step === 'scheduled'">
+  <ng-container *ngIf="step === 'scheduled' && !result.attend!.skip">
     <a (click)="skipMeet()">I can no longer attend this meet</a>
     <br />
     <br />
@@ -122,13 +132,13 @@
     <br />
   </ng-container>
 
-  <ng-container *ngIf="step === 'confirm'">
+  <ng-container *ngIf="step === 'confirm' && !result.attend!.skip">
     <div class="h m">Does this time and place work for you?</div>
     <a (click)="confirm(true)">Yes, attend this meet</a><br /><br />
     <a (click)="confirm(false)">No, wait for a 2nd time and place to be proposed</a>
   </ng-container>
 
-  <ng-container *ngIf="step === 'vote'">
+  <ng-container *ngIf="step === 'vote' && !result.attend!.skip">
     <hr />
     <a (click)="load()">Reload this page</a>
     <div class="sm m">
@@ -141,6 +151,10 @@
         <li>If a single person remains, people are able to attend a second meet to meet them as well</li>
       </ol>
     </div>
-    <a routerLink="/">Do not attend this meet</a>
+    <a (click)="skipMeet()">Do not attend this meet</a>
+  </ng-container>
+
+  <ng-container *ngIf="result.attend!.skip">
+    <a (click)="unskipMeet()">Attend this meet</a>
   </ng-container>
 </section>

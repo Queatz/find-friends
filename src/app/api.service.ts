@@ -53,7 +53,11 @@ export class ApiService {
   }
 
   skipMeet() {
-    return this.http.post<SuccessApiResponse>(`${environment.api}/attend/${this.key}/skip`, null)
+    return this.http.post<MeetAttendanceApiResponse>(`${environment.api}/attend/${this.key}/skip`, null)
+  }
+
+  unskipMeet() {
+    return this.http.post<MeetAttendanceApiResponse>(`${environment.api}/attend/${this.key}/unskip`, null)
   }
 
   sendProblem(body: MeetProblemPostBody) {

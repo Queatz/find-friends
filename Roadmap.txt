@@ -40,6 +40,8 @@ Todo
 
   [ ] HTTPS
 
+  [ ] Bias location to group.geo
+
   [ ] Sort places by votes, soonest
 
   [ ] Ensure 2 people suggesting the same place doesn't create 2 places

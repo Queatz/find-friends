@@ -27,6 +27,7 @@ export class AttendComponent implements OnInit {
   placeSuggestions = [] as Array<PlaceResult>
   meet?: MeetWithAttendance
   votedAlready = false
+  unconfirmed = 0
   step?: 'vote' | 'confirm' | 'scheduled'
 
   meetMessage = ''
@@ -216,7 +217,29 @@ export class AttendComponent implements OnInit {
   }
 
   skipMeet() {
-    // todo
+    this.api.skipMeet().subscribe({
+      next: result => {
+        this.setPlaces(result)
+
+        this.cr.detectChanges()
+      },
+      error: err => {
+        // todo
+      }
+    })
+  }
+
+  unskipMeet() {
+    this.api.unskipMeet().subscribe({
+      next: result => {
+        this.setPlaces(result)
+
+        this.cr.detectChanges()
+      },
+      error: err => {
+        // todo
+      }
+    })
   }
 
   reportAProblem() {
@@ -231,6 +254,7 @@ export class AttendComponent implements OnInit {
       meet.meets?.find(x => x.confirm?.response !== false)
 
     this.votedAlready = !!meet.places!.find(x => x.voted)
+    this.unconfirmed = this.result.attendees! - (meet.meets?.reduce((r, x) => r + x.attendees, 0) ?? 0)
 
     if (!this.meet) {
       this.step = 'vote'
@@ -243,7 +267,7 @@ export class AttendComponent implements OnInit {
     }
 
     if (this.step === 'vote') {
-      this.suggestions = meet.places!
+      this.suggestions = meet.places!.filter(x => !meet.meets?.find(meet => x.place.id === meet.place.id))
     } else {
       this.suggestions = meet.meets?.map(it => ({ place: it.place } as PlaceWithVotes)) ?? []
     }
