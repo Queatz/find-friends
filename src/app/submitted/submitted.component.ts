@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../user.service";
 import {ApiService} from "../api.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-submitted',
@@ -12,7 +13,7 @@ export class SubmittedComponent implements OnInit {
   state: '' | 'success' | 'error' = ''
   error = ''
 
-  constructor(public user: UserService, private api: ApiService) {
+  constructor(public user: UserService, private api: ApiService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -38,5 +39,10 @@ export class SubmittedComponent implements OnInit {
         }
       })
     }
+  }
+
+  clear() {
+    this.user.reset()
+    this.router.navigate(['/'])
   }
 }

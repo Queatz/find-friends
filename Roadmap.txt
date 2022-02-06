@@ -40,20 +40,11 @@ Todo
 
   [ ] HTTPS
 
-  [ ] Bias location to group.geo
-
-  [ ] Sort places by votes, soonest
-
   [ ] Ensure 2 people suggesting the same place doesn't create 2 places
-
   [ ] Ensure 2 meets don't get scheduled at the same place for the same group
 
-  [ ] Don't attempt to send code if quiz with that contact does not exist
-
-  [X] Don't group people who already met
-
   [ ] Collect errors submitting quizzes in db
-  [ ] How to handle people creating a quiz under the same email or phone number
+  [ ] Handle people creating a quiz under the same email or phone number
     [ ] They can enter a code to overwrite, change the contact info, or discard
 
   [ ] Unique constraint on quiz.contact
@@ -61,6 +52,11 @@ Todo
   [ ] Enable/disable quiz
   [ ] Remove quiz
 
+  [X] Bias location to group.geo
+  [X] Click on address -> https://duckduckgo.com/?q={{ addy }}&iaxm=maps
+  [X] Sort places by votes, soonest
+  [X] Don't attempt to send code if quiz with that contact does not exist
+  [X] Don't group people who already met
 Open questions
 ==============
 

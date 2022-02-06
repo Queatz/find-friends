@@ -1,4 +1,23 @@
 <link rel="stylesheet" href="basic-info.component.scss">
+<section *ngIf="user.quiz.id">
+  <div class="note" *ngIf="!user.quiz.paused && !showDeleteBox">
+    <div class="h">Your quiz is active</div>
+    <div class="hh">You will continue being grouped with potential friends</div>
+    <a (click)="deactivate()">Deactivate my quiz</a>
+  </div>
+  <div class="note" *ngIf="user.quiz.paused && !showDeleteBox">
+    <div class="h">Your quiz is inactive</div>
+    <div class="hh">You will not be grouped with potential friends.</div>
+    <a (click)="reactivate()">Reactivate my quiz</a><br /><br />
+    <a (click)="showDeleteBox = true">Delete my quiz</a>
+  </div>
+  <div class="note" *ngIf="showDeleteBox">
+    <div class="h">Are you sure you want to delete your quiz?</div>
+    <div class="hh">To use MoreFriends.org again you will need to create a new quiz.</div>
+    <a (click)="remove()">Yes, delete my quiz</a><br /><br />
+    <a (click)="showDeleteBox = false">Cancel</a>
+  </div>
+</section>
 <section>
   <b>Basic information</b>
   <div>

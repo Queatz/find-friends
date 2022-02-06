@@ -5,7 +5,7 @@ import {delay, Subscription} from "rxjs";
 import {addHours, format, isAfter, isToday, isTomorrow, startOfToday} from "date-fns";
 import {ActivatedRoute} from "@angular/router";
 import {ApiService, MeetAttendanceApiResponse} from "../api.service";
-import {MeetWithAttendance, PlaceWithVotes} from "../models";
+import {MeetWithAttendance, Place, PlaceWithVotes} from "../models";
 
 @Component({
   selector: 'app-attend',
@@ -105,7 +105,9 @@ export class AttendComponent implements OnInit {
       }
     }).subscribe({
       next: result => {
-        // todo
+        this.setPlaces(result)
+
+        this.cr.detectChanges()
       },
       error: err => {
         // todo
@@ -122,7 +124,7 @@ export class AttendComponent implements OnInit {
 
     this.lastSearchText = text
 
-    this.autocompleteSub = this.map.autocomplete(text, 'poi', this.user.quiz.geo.join(',')).pipe(delay(500)).subscribe(x => {
+    this.autocompleteSub = this.map.autocomplete(text, 'poi', (this.result?.geo ?? this.user.quiz.geo).join(',')).pipe(delay(500)).subscribe(x => {
       this.placeSuggestions = x
       this.autocompleteSub = undefined
 
@@ -134,13 +136,13 @@ export class AttendComponent implements OnInit {
     this.searchMapImg = this.map.staticMap(result.geo.join(','))
     this.searchName = result.name
     this.searchAddress = result.address!
-    this.searchGeo = result.geo
+    this.searchGeo = [...result.geo].reverse()
     this.placeSuggestions.length = 0
     this.search = ''
   }
 
   img(geo: Array<number>): string {
-    return this.map.staticMap(geo.join(','))
+    return this.map.staticMap([...geo].reverse().join(','))
   }
 
   private fmt(date: Date): string {
@@ -275,6 +277,14 @@ export class AttendComponent implements OnInit {
 
   attendedAndPassed(meet?: MeetWithAttendance): boolean {
     return !!meet?.confirm?.response && isAfter(addHours(meet.place!.date, 1), new Date())
+  }
+
+  ddg(place: Place) {
+    return `https://duckduckgo.com/?q=${place.name}, ${place.address}&iaxm=maps&strict_bbox=0&bbox=${this.bbox(place.geo)}`
+  }
+
+  private bbox(geo: Array<number>): string {
+    return `${Number(geo[0]) + .1},${Number(geo[1]) - .1},${Number(geo[0]) - .1},${Number(geo[1]) + .1}`
   }
 }
 

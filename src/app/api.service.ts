@@ -32,6 +32,10 @@ export class ApiService {
     return this.http.post<Quiz>(`${environment.api}/quiz/${body?.quiz?.id?.split('/')?.[1]}`, body)
   }
 
+  deleteQuiz(quiz: string, body: DeleteQuizPostBody) {
+    return this.http.post<SuccessApiResponse>(`${environment.api}/quiz/${quiz?.split('/')?.[1]}/delete`, body)
+  }
+
   createIdea(body: IdeaPostBody) {
     return this.http.post<SuccessApiResponse>(`${environment.api}/idea`, body)
   }
@@ -91,6 +95,10 @@ export class QuizUpdatePostBody {
   quiz?: Quiz
 }
 
+export class DeleteQuizPostBody {
+  token?: string
+}
+
 export class IdeaPostBody {
   idea?: string
 }
@@ -131,6 +139,7 @@ export class GetQuizApiResponse {
 
 export class MeetAttendanceApiResponse {
   attend?: Attend
+  geo?: Array<number>
   name?: string
   attendees?: number
   places?: Array<PlaceWithVotes>

@@ -23,6 +23,13 @@ hr {
   border: 1px solid lightgray;
 }
 
+.note {
+  background: antiquewhite;
+  border: 1px solid bisque;
+  border-radius: .25rem;
+  padding: 1rem;
+}
+
 input:not([type]), input[type="text"] {
   width: 100%;
   box-sizing: border-box;
@@ -77,7 +84,10 @@ textarea {
 }
 
 div.h {
-  margin-top: 1rem;
+  &:not(:first-child) {
+    margin-top: 1rem;
+  }
+
   font-weight: 500;
 }
 

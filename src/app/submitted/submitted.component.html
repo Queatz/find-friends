@@ -3,7 +3,7 @@
 </section>
 <section *ngIf="state === 'error'">
   <p>
-    Sadly, there was a error submitting your quiz.  We will look into this and hopefully fix it soon!
+    Sadly, there was a error submitting your quiz.
   </p>
   <div *ngIf="error" class="h">
     {{ error }}
@@ -22,5 +22,5 @@
   </p>
 </section>
 <footer>
-  <a routerLink="/">Return to homepage</a>
+  <a (click)="clear()">Return to homepage</a>
 </footer>

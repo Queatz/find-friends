@@ -12,6 +12,11 @@ export class UserService {
   quiz = new Quiz()
 
   constructor() { }
+
+  reset() {
+    this.token = ''
+    this.quiz = new Quiz()
+  }
 }
 
 export interface Choice {

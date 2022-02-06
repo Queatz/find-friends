@@ -60,7 +60,7 @@
 
   <ng-container *ngIf="meet">
     <div class="h">Place</div>
-    <a href="#">{{ meet.place.name }}, {{ meet.place.address }}</a>
+    <a [href]="ddg(meet.place)" target="_blank">{{ meet.place.name }}, {{ meet.place.address }}</a>
     <div class="h">Time</div>
     <div>
       {{ time(meet.place.date) }}
@@ -86,7 +86,7 @@
       <p>
         Someone suggested meeting at <b>{{ x.place.name }}</b> at <b>{{ time(x.place.date) }}</b>.<br />
       </p>
-      <a href="#">{{ x.place.address }}</a>
+      <a [href]="ddg(x.place)" target="_blank">{{ x.place.address }}</a>
       <div class="map" [style.background-image]="'url(' + img(x.place.geo) + ')'">
         <div class="pin"></div>
       </div>
