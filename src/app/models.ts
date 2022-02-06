@@ -1,7 +1,7 @@
 import {Choice} from "./user.service";
 
 class Model {
-  id!: string
+  id?: string
 }
 
 export class Quiz extends Model {
@@ -38,14 +38,24 @@ export class Quiz extends Model {
 }
 
 export class Attend extends Model {
-  key = null as string | null
-  meet = null as string | null
-  skip = null as string | null
+  key!: string
+  quiz!: string
+  group!: string
+  skip!: boolean
+}
+
+export class PlaceWithVotes {
+  place!: Place
+  voted!: boolean
+  votes!: number
 }
 
 export class Place extends Model {
-  meet = null as string | null
-  attendees = null as number | null
+  group?: string
+  name!: string
+  address!: string
+  date!: Date
+  geo!: Array<number>
 }
 
 export class Meet extends Model {

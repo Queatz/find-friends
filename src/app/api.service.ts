@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Attend, Meet, Place, Quiz} from "./models";
+import {Attend, Meet, Place, PlaceWithVotes, Quiz} from "./models";
 import {environment} from "../environments/environment";
 
 @Injectable({
@@ -37,96 +37,95 @@ export class ApiService {
   }
 
   getMeet() {
-    return this.http.get<MeetAttendanceApiResponse>(`${environment.api}/meet/${this.key}`)
+    return this.http.get<MeetAttendanceApiResponse>(`${environment.api}/attend/${this.key}`)
   }
 
   createMeetPlace(body: MeetPlacesPostBody) {
-    return this.http.post<MeetAttendanceApiResponse>(`${environment.api}/meet/${this.key}/places`, body)
+    return this.http.post<MeetAttendanceApiResponse>(`${environment.api}/attend/${this.key}/places`, body)
   }
 
   vote(body: VotePostBody) {
-    return this.http.post<MeetAttendanceApiResponse>(`${environment.api}/meet/${this.key}/vote`, body)
+    return this.http.post<MeetAttendanceApiResponse>(`${environment.api}/attend/${this.key}/vote`, body)
   }
 
   confirm(body: ConfirmPostBody) {
-    return this.http.post<MeetAttendanceApiResponse>(`${environment.api}/meet/${this.key}/confirm`, body)
+    return this.http.post<MeetAttendanceApiResponse>(`${environment.api}/attend/${this.key}/confirm`, body)
   }
 
   skipMeet() {
-    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${this.key}/skip`, null)
-  }
-
-  sendMeetMessage(body: MeetMessagePostBody) {
-    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${this.key}/message`, body)
+    return this.http.post<SuccessApiResponse>(`${environment.api}/attend/${this.key}/skip`, null)
   }
 
   sendProblem(body: MeetProblemPostBody) {
-    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${this.key}/problem`, body)
+    return this.http.post<SuccessApiResponse>(`${environment.api}/attend/${this.key}/problem`, body)
   }
 
-  sendFeedback(body: MeetFeedbackPostBody) {
-    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${this.key}/feedback`, body)
+  sendMeetMessage(meetId: string, body: MeetMessagePostBody) {
+    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${meetId}/message`, body)
+  }
+
+  sendFeedback(meetId: string, body: MeetFeedbackPostBody) {
+    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${meetId}/feedback`, body)
   }
 }
 
-class GetCodePostBody {
+export class GetCodePostBody {
   contact?: string
 }
 
-class GetQuizPostBody {
+export class GetQuizPostBody {
   contact?: string
   code?: string
 }
 
-class QuizPostBody {
+export class QuizPostBody {
   quiz?: Quiz
 }
 
-class QuizUpdatePostBody {
+export class QuizUpdatePostBody {
   token?: string
   quiz?: Quiz
 }
 
-class IdeaPostBody {
+export class IdeaPostBody {
   idea?: string
 }
 
-class MeetPlacesPostBody {
+export class MeetPlacesPostBody {
   place?: Place
 }
 
-class VotePostBody {
+export class VotePostBody {
   place?: string
 }
 
-class ConfirmPostBody {
-  place?: string
+export class ConfirmPostBody {
+  meet?: string
 }
 
-class MeetMessagePostBody {
+export class MeetMessagePostBody {
   message?: string
 }
 
-class MeetProblemPostBody {
+export class MeetProblemPostBody {
   problem?: string
 }
 
-class MeetFeedbackPostBody {
+export class MeetFeedbackPostBody {
   feedback?: string
 }
 
-class SuccessApiResponse {
+export class SuccessApiResponse {
   ok?: Boolean = true
 }
 
-class GetQuizApiResponse {
+export class GetQuizApiResponse {
   token?: string
   quiz?: Quiz
 }
 
-class MeetAttendanceApiResponse {
-  meet?: Meet
-  places?: Array<Place>
+export class MeetAttendanceApiResponse {
   attend?: Attend
+  attendees?: number
+  places?: Array<PlaceWithVotes>
 }
-

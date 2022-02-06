@@ -3,6 +3,8 @@ import {UserService} from "../user.service";
 import {MapService, PlaceResult} from "../map.service";
 import {delay, Subscription} from "rxjs";
 import {format, isToday, isTomorrow, startOfToday} from "date-fns";
+import {ActivatedRoute} from "@angular/router";
+import {ApiService, MeetAttendanceApiResponse} from "../api.service";
 
 @Component({
   selector: 'app-attend',
@@ -28,12 +30,24 @@ export class AttendComponent implements OnInit {
   placeSuggestions = [] as Array<PlaceResult>
   place?: Suggestion
 
+  result?: MeetAttendanceApiResponse
+  error = ''
+  loading = false
+
   private autocompleteSub?: Subscription
   private lastSearchText = ''
 
-  constructor(public user: UserService, private map: MapService, private cr: ChangeDetectorRef) { }
+  constructor(public user: UserService, private api: ApiService, private map: MapService, private route: ActivatedRoute, private cr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.api.key = params.get('key')!
+
+      this.load()
+
+      this.cr.detectChanges()
+    })
+
     this.days = [0, 1, 2, 3, 4, 5, 6].map(x => {
       const m = new Date(startOfToday().getTime() + x * 86400000)
 
@@ -68,20 +82,19 @@ export class AttendComponent implements OnInit {
     const d = new Date(Number(this.searchDate))
     d.setHours(Number(this.searchTime.split(':')[0]))
     d.setMinutes(Number(this.searchTime.split(':')[1]))
-    const date = `${format(d, 'h:mm a')}, ${this.fmt(d)}`
+    const date = this.time(d)
 
     const s = {
       id: Math.random().toString(),
       attendees: Math.floor(Math.random() * 4),
       date,
+      voted: true,
       name: this.searchName,
       address: this.searchAddress,
       geo: this.searchGeo
     }
 
-    this.suggestions.push(
-      s
-    )
+    this.suggestions.push(s)
 
     this.meetChosen = s.id
 
@@ -91,6 +104,22 @@ export class AttendComponent implements OnInit {
     this.searchAddress = ''
     this.searchMapImg = ''
     this.searchTime = '12:00'
+
+    this.api.createMeetPlace({
+      place: {
+        name: s.name,
+        address: s.address,
+        date: d,
+        geo: s.geo,
+      }
+    }).subscribe({
+      next: result => {
+        // todo
+      },
+      error: err => {
+        // todo
+      }
+    })
   }
 
   autocomplete(text: string) {
@@ -128,10 +157,48 @@ export class AttendComponent implements OnInit {
     return t + format(date, `${ t ? '' : 'EEEE' }, MMMM do`)
   }
 
+  private time(date: Date): string {
+    return `${format(date, 'h:mm a')}, ${this.fmt(date)}`
+  }
+
   validateTime() {
     if (!this.searchTime) {
       this.searchTime = '12:00'
     }
+  }
+
+  private load() {
+    this.loading = true
+    this.api.getMeet().subscribe({
+      next: result => {
+        this.result = result
+        this.loading = false
+
+        this.result.places?.forEach(it => {
+          this.suggestions.push({
+            id: it.place.id!,
+            name: it.place.name!,
+            address: it.place.address!,
+            geo: it.place.geo!,
+            voted: it.voted,
+            date: this.time(new Date(it.place.date)),
+            attendees: it.votes
+          })
+        })
+
+        this.cr.detectChanges()
+      },
+      error: err => {
+        this.error = err.statusText
+        this.loading = false
+
+        this.cr.detectChanges()
+      }
+    })
+  }
+
+  vote(suggestion: Suggestion) {
+    // todo
   }
 }
 
@@ -146,5 +213,6 @@ interface Suggestion {
   address: string
   date: string
   attendees: number
+  voted: boolean
   geo: Array<number>
 }

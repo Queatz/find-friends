@@ -23,8 +23,22 @@ SMS + Email
   [ ] When 2+ attendees confirm no
       "Can you attend the meet at ___?"
 
+Groups
+======
+
+group formed
+ create Meet
+  add all Attend to meet
+ add Place to meet
+ add Vote for Place to meet
+ add Confirm of Place to Meet
+
+{meet, places, attendees Count}
+
 Todo
 ====
+
+  [ ] Don't attempt to send code if quiz with that contact does not exist
 
   [ ] Don't group people who already met
 
