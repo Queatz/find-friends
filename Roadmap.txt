@@ -17,9 +17,10 @@ SMS + Email
   [ ] When 2+ attendees confirm no
       "Can you attend the meet at ___?"
 
-  [ ] 2 hours before the meet happens
+  [ ] 2 hours SMS + Email before the meet happens
 
-  [ ] HTTPS
+  [ ] HTTPS api
+  [ ] HTTPS web
 
   [ ] Ensure 2 people suggesting the same place doesn't create 2 places
   [ ] Ensure 2 meets don't get scheduled at the same place for the same group

@@ -38,6 +38,7 @@ export class AttendComponent implements OnInit {
   loading = false
   private autocompleteSub?: Subscription
   private lastSearchText = ''
+  feedbackText = ''
 
   constructor(public user: UserService, private api: ApiService, private map: MapService, private route: ActivatedRoute, private cr: ChangeDetectorRef) { }
 
@@ -110,7 +111,7 @@ export class AttendComponent implements OnInit {
         this.cr.detectChanges()
       },
       error: err => {
-        // todo
+        alert(err.statusText)
       }
     })
   }
@@ -193,7 +194,7 @@ export class AttendComponent implements OnInit {
         this.cr.detectChanges()
       },
       error: err => {
-        // todo
+        alert(err.statusText)
       }
     })
   }
@@ -209,7 +210,7 @@ export class AttendComponent implements OnInit {
         this.cr.detectChanges()
       },
       error: err => {
-        // todo
+        alert(err.statusText)
       }
     })
   }
@@ -262,7 +263,33 @@ export class AttendComponent implements OnInit {
   }
 
   reportAProblem() {
-    // todo
+    const problem = prompt("Tell is about a problem with this meet")
+
+    if (!problem) {
+      return
+    }
+
+    this.api.sendProblem(this.meet!.meet.id!, {
+      key: this.result!.attend!.key,
+      problem
+    }).subscribe({
+      next: result => {
+        alert('Problem received')
+
+        this.cr.detectChanges()
+      },
+      error: err => {
+        alert(err.statusText)
+      }
+    })
+  }
+
+  sendFeedback() {
+    if (!this.feedbackText) {
+      return
+    }
+
+
   }
 
   private setPlaces(meet: MeetAttendanceApiResponse) {

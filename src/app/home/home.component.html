@@ -39,7 +39,10 @@
       You can then deactivate, reactivate, modify, or delete your existing quiz.
     </p>
     <div>
-      <input [(ngModel)]="contact" placeholder="Phone number or email" />
+      <div>
+        <input [(ngModel)]="contact" placeholder="Phone number or email" />
+      </div>
+      <br />
       <a (click)="getCode()">Send me a code</a>
       <br *ngIf="codeSent" />
       <br *ngIf="codeSent" />
@@ -53,8 +56,9 @@
       Are we missing important questions or scenarios in the quiz? Share an idea!
     </p>
     <div>
-      <input [(ngModel)]="idea" placeholder="Share your idea" />
+      <input [(ngModel)]="idea" placeholder="Share your idea or general feedback" />
     </div>
-    <a (click)="sendIdea()">Send idea</a>
+    <br />
+    <a (click)="sendIdea()">Send</a>
   </div>
 </aside>

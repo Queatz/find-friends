@@ -64,8 +64,8 @@ export class ApiService {
     return this.http.post<MeetAttendanceApiResponse>(`${environment.api}/attend/${this.key}/unskip`, null)
   }
 
-  sendProblem(body: MeetProblemPostBody) {
-    return this.http.post<SuccessApiResponse>(`${environment.api}/attend/${this.key}/problem`, body)
+  sendProblem(meetId: string, body: MeetProblemPostBody) {
+    return this.http.post<SuccessApiResponse>(`${environment.api}/meet/${meetId.split('/')?.[1]}/problem`, body)
   }
 
   sendMeetMessage(meetId: string, body: MeetMessagePostBody) {
@@ -122,10 +122,12 @@ export class MeetMessagePostBody {
 }
 
 export class MeetProblemPostBody {
+  key?: string
   problem?: string
 }
 
 export class MeetFeedbackPostBody {
+  key?: string
   feedback?: string
 }
 

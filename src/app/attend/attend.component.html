@@ -23,9 +23,9 @@
     This meet already happened.
   </p>
   <b>What do you think about this platform? What would you change? What worked well?</b>
-  <textarea placeholder="Enter your feedback here"></textarea>
-  <a routerLink="/">Send this feedback</a><br /><br />
-  <a routerLink="/">Tell us about a problem</a><br /><br />
+  <textarea [(ngModel)]="feedbackText" placeholder="Enter your feedback here"></textarea>
+  <a (click)="sendFeedback()">Send this feedback</a><br /><br />
+  <a (click)="reportAProblem()">Tell us about a problem</a><br /><br />
   <a routerLink="/">Return to homepage</a><br /><br />
 </section>
 
