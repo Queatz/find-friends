@@ -18,8 +18,6 @@ export class MapService {
   autocomplete(text: string, types = 'place', proximity?: string): Observable<Array<PlaceResult>> {
     return this.http.get<Array<PlaceResult>>(`https://api.mapbox.com/geocoding/v5/mapbox.places/${text}.json?country=us&types=${types}${proximity ? `&proximity=${proximity}` : '' }&access_token=${this.apiKey}`).pipe(
       map((res: any) => {
-        console.log(res)
-
         return res.features.map((x: any) => ({
           name: x.text,
           full: x.place_name,

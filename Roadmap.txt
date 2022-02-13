@@ -1,42 +1,21 @@
 
+Incoming
+========
+
+ [ ]
+
 Todo
 ====
 
-  [ ] Twilio SMS
-  [ ] Send Email
-  [ ] Send meet message
-  [ ] Send problem with meet
-  [ ] Send feedback for meet
-
-SMS + Email
-
-  [ ] When a meet has 50% of the votes
-      "Can you attend the meet at Tiger Lake tomorrow at 4:00PM?"
-  [ ] When 2+ attendees confirm yes
-      "You're confirmed for ___"
-  [ ] When 2+ attendees confirm no
-      "Can you attend the meet at ___?"
-
-  [ ] 2 hours SMS + Email before the meet happens
-
-  [ ] HTTPS api
-  [ ] HTTPS web
+  [ ] Change to matching every Wednesday morning
 
   [ ] Ensure 2 people suggesting the same place doesn't create 2 places
   [ ] Ensure 2 meets don't get scheduled at the same place for the same group
-  [ ] Collect errors submitting quizzes in db
   [ ] Handle people creating a quiz under the same email or phone number
+    [ ] Unique constraint on quiz.contact
     [ ] They can enter a code to overwrite, change the contact info, or discard
+  [ ] Add indexes
 
-  [ ] Unique constraint on quiz.contact
-
-  [X] Enable/disable quiz
-  [X] Remove quiz
-  [X] Bias location to group.geo
-  [X] Click on address -> https://duckduckgo.com/?q={{ addy }}&iaxm=maps
-  [X] Sort places by votes, soonest
-  [X] Don't attempt to send code if quiz with that contact does not exist
-  [X] Don't group people who already met
 Open questions
 ==============
 

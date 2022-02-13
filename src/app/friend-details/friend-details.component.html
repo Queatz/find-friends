@@ -1,7 +1,7 @@
 <section>
   <b>Describe the friend you really want to find</b>
   <div class="hh">Choose the option that is the most correct, or skip</div>
-  <div *ngFor="let x of friendFacts">
+  <div *ngFor="let x of friendFacts" class="q">
     <div class="h">{{ x }}</div>
     <app-choices [(value)]="user.quiz.friendFacts[x]"></app-choices>
   </div>

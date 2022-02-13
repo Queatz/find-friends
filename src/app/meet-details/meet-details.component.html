@@ -14,7 +14,7 @@
   <p>
     <b>What's okay at the meet?</b>
   </p>
-  <div *ngFor="let x of meetPreferences">
+  <div *ngFor="let x of meetPreferences" class="q">
     <div class="h">{{ x }}</div>
     <app-choices [(value)]="user.quiz.meetPreferences[x]"></app-choices>
   </div>
@@ -23,7 +23,7 @@
   </p>
   <div>
     <div class="radio-group">
-      <div *ngFor="let x of meetPlaces">
+      <div *ngFor="let x of meetPlaces" class="q">
         <div class="h">{{ x }}</div>
         <app-choices [(value)]="user.quiz.meetPlaces[x]"></app-choices>
       </div>
