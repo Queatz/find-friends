@@ -24,6 +24,48 @@ export class ScenarioService {
         'Tell you they actually don\'t eat this type of food',
         'Tell you they\'re actually not very hungry',
       ]
+    }, {
+      text: 'You and your friend are hiking in the woods, gun in hand, when suddenly a giant grizzly appears in the path ahead.',
+      choices: [
+        'Shoot the grizzly',
+        'Try avoiding confrontation with the grizzly',
+      ]
+    }, {
+      text: '',
+      choices: [
+        '',
+        '',
+      ]
+    }, {
+      text: '',
+      choices: [
+        '',
+        '',
+      ]
+    }, {
+      text: '',
+      choices: [
+        '',
+        '',
+      ]
+    }, {
+      text: '',
+      choices: [
+        '',
+        '',
+      ]
+    }, {
+      text: '',
+      choices: [
+        '',
+        '',
+      ]
+    }, {
+      text: '',
+      choices: [
+        '',
+        '',
+      ]
     }
   ]
 
